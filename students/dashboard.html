@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Control Center - Key Board Wizards</title>
+    <link rel="stylesheet" href="../css/marketplace.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <style>
+        /* Embedded layout structural mechanics for dashboard tracking slots */
+        .dashboard-layout { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; background: #0f172a; color: #f1f5f9; }
+        .sidebar-panel { background: #1e293b; border-right: 1px solid #334155; padding: 24px; display: flex; flex-direction: column; gap: 32px; }
+        .nav-group { display: flex; flex-direction: column; gap: 8px; list-style: none; }
+        .nav-item-btn { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 8px; color: #94a3b8; text-decoration: none; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .nav-item-btn.active, .nav-item-btn:hover { background: #4f46e5; color: #fff; }
+        .main-workspace-view { padding: 40px; overflow-y: auto; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; margin-bottom: 40px; }
+        .metric-card { background: #1e293b; border: 1px solid #334155; padding: 24px; border-radius: 12px; position: relative; }
+        .metric-card h3 { font-size: 13px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+        .metric-card .value { font-size: 28px; font-weight: 700; color: #00bfa6; }
+        .dashboard-section-card { background: #1e293b; border: 1px solid #334155; border-radius: 16px; padding: 32px; margin-bottom: 40px; display: none; }
+        .dashboard-section-card.active-tab { display: block; }
+        .affiliate-link-box { display: flex; gap: 12px; margin-top: 16px; background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #334155; }
+        .affiliate-link-box input { background: transparent; border: none; color: #fff; width: 100%; outline: none; font-size: 14px; }
+        .data-table-frame { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 14px; }
+        .data-table-frame th { text-align: left; padding: 12px; background: #0f172a; color: #94a3b8; border-bottom: 1px solid #334155; }
+        .data-table-frame td { padding: 16px 12px; border-bottom: 1px solid #334155; color: #e2e8f0; }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        <!-- SIDEBAR NAVIGATION PANEL -->
+        <aside class="sidebar-panel">
+            <div class="brand-logo" style="color: #00bfa6;">KBW Portal</div>
+            <ul class="nav-group">
+                <li><div class="nav-item-btn active" onclick="switchDashboardTab('library-pane', this)"><ion-icon name="grid-outline"></ion-icon>My Course Library</div></li>
+                <li><div class="nav-item-btn" onclick="switchDashboardTab('affiliate-pane', this)"><ion-icon name="cash-outline"></ion-icon>Affiliate Balance</div></li>
+                <li><div class="nav-item-btn" onclick="switchDashboardTab('history-pane', this)"><ion-icon name="receipt-outline"></ion-icon>Purchase History</div></li>
+            </ul>
+            <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid #334155; display: flex; align-items: center; gap: 12px;">
+                <div class="student-profile-avatar" id="admin-avatar-slot" style="background: #4f46e5; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">U</div>
+                <div>
+                    <div style="font-size: 14px; font-weight: 600;" id="user-display-email">Student Account</div>
+                    <a href="#" id="student-logout-trigger" style="font-size: 12px; color: #ef4444; text-decoration: none;">Sign Out</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN MONITORING WORKSPACE -->
+        <main class="main-workspace-view">
+            <!-- PERFORMANCE OVERVIEW METRICS BLOCK -->
+            <section class="metrics-grid">
+                <div class="metric-card">
+                    <h3>Unlocked Products</h3>
+                    <div class="value" id="metric-courses-count">0</div>
+                </div>
+                <div class="metric-card">
+                    <h3>Affiliate Earnings</h3>
+                    <div class="value" id="metric-wallet-balance">₦0.00</div>
+                </div>
+                <div class="metric-card">
+                    <h3>Total Referrals Unlocked</h3>
+                    <div class="value" id="metric-referrals-count">0</div>
+                </div>
+            </section>
+
+            <!-- TAB 1: ACQUIRED CONTENT PRODUCT DIRECTORY GRID -->
+            <section id="library-pane" class="dashboard-section-card active-tab">
+                <h2 style="margin-bottom: 8px;">My Live Workspace Catalogs</h2>
+                <p style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">Select any active product node to launch into its specific playback framework.</p>
+                <div id="library-grid" class="products-grid">
+                    <div class="loading-placeholder">Syncing active inventory parameters...</div>
+                </div>
+            </section>
+
+<!-- TAB 2: AFFILIATE LEDGER CONTROL BOARD (DYNAMIC lifecycle STATES) -->
+<section id="affiliate-pane" class="dashboard-section-card">
+    <h2>Affiliate Monetization Portal</h2>
+    <p style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">Earn commissions on every system registration generated through your uniquely tokenized reference tracking handle.</p>
+    
+    <!-- STATE 1: NOT APPLIED -->
+    <div id="affiliate-state-none" class="empty-state" style="display: none; text-align: center; padding: 40px; background: #1e293b; border: 1px dashed #334155; border-radius: 8px;">
+        <ion-icon name="cash-outline" style="font-size: 48px; color: #94a3b8; margin-bottom: 12px;"></ion-icon>
+        <h3 style="margin-bottom: 8px;">Join the Affiliate Partner Program</h3>
+        <p style="color: #94a3b8; font-size: 14px; margin-bottom: 20px; max-width: 500px; margin-left: auto; margin-right: auto;">Unlock custom earnings tracking links by applying for our administrative vetting pipeline configuration program.</p>
+        <button id="btn-submit-affiliate-application" class="btn btn-primary btn-sm">Submit Partnership Application</button>
+    </div>
+
+    <!-- STATE 2: PENDING REVIEW -->
+    <div id="affiliate-state-pending" class="empty-state" style="display: none; text-align: center; padding: 40px; background: #1e293b; border: 1px solid #eab308; border-radius: 8px; color: #fef08a;">
+        <ion-icon name="time-outline" style="font-size: 48px; color: #eab308; margin-bottom: 12px;"></ion-icon>
+        <h3 style="margin-bottom: 8px; color: #fff;">Application Under Review</h3>
+        <p style="color: #94a3b8; font-size: 14px; max-width: 500px; margin-left: auto; margin-right: auto;">Your request is securely queued in the administrative validation bucket. Links will automatically populate here upon approval credentials synchronization confirmation.</p>
+    </div>
+
+    <!-- STATE 3: FULLY APPROVED CONTENT -->
+    <div id="affiliate-state-approved" style="display: none;">
+        <div class="affiliate-link-box">
+            <input type="text" id="share-link-input" readonly value="Generating tracker code...">
+            <button class="btn btn-primary btn-sm" onclick="copyTrackingUrl()" style="border-radius: 4px;">Copy Link</button>
+        </div>
+
+        <h3 style="margin-top: 32px; margin-bottom: 16px;">Registered Referral Conversions</h3>
+        <table class="data-table-frame">
+            <thead>
+                <tr>
+                    <th>Referral Account ID</th>
+                    <th>Status Flag</th>
+                    <th>Earned Commission Line</th>
+                </tr>
+            </thead>
+            <tbody id="referral-logs-table">
+                <tr><td colspan="3" style="text-align: center; color: #94a3b8;">No tracked conversions linked to your token reference structure.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+            <!-- TAB 3: TRANSACTIONAL AUDIT LOG HISTORY -->
+            <section id="history-pane" class="dashboard-section-card">
+                <h2>Payment Audit & Purchase Trailing</h2>
+                <p style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">Historical accounting breakdown verified via direct Paystack synchronization loops.</p>
+                <table class="data-table-frame">
+                    <thead>
+                        <tr>
+                            <th>Reference Token</th>
+                            <th>Product Title</th>
+                            <th>Amount Cleared</th>
+                            <th>Processing Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="purchase-history-table">
+                        <tr><td colspan="4" style="text-align: center; color: #94a3b8;">Syncing historic processing ledgers...</td></tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <!-- ARCHITECTURE ENGINE CONTROLLER LINK -->
+    <script type="module">
+   
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js';
+import { getFirestore, doc, getDoc, collection, getDocs, updateDoc } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js';
+import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js';
+
+// ====================================================================
+// 1. FIREBASE CONFIGURATION & INITIALIZATION
+// ====================================================================
+const firebaseConfig = {
+apiKey: "AIzaSyAATExPAdi27kKvuvU0ujf6f2QqR8JWwTg",
+  authDomain: "tech-wizards-academy.firebaseapp.com",
+  projectId: "tech-wizards-academy",
+  storageBucket: "tech-wizards-academy.firebasestorage.app",
+  messagingSenderId: "155089680506",
+  appId: "1:155089680506:web:bd1909e4cc8e85b09663c3",
+  measurementId: "G-1JCG9GLV37"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+// ====================================================================
+// 2. AUTHENTICATION LIFECYCLE MONITOR
+// ====================================================================
+onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+        // Steps back up into root folder where sign-in.html is located
+        window.location.href = '../sign-in.html';
+        return;
+    }
+    
+    // Update structural identity components inside sidebar layout
+    document.getElementById('user-display-email').textContent = user.email || "Student Account";
+    document.getElementById('admin-avatar-slot').textContent = (user.email || 'U').charAt(0).toUpperCase();
+    
+    // Trigger master sync pipeline
+    await loadStudentDashboardData(user.uid);
+});
+
+// ====================================================================
+// 3. CORE CORE ENGINE & METRICS ROUTER
+// ====================================================================
+async function loadStudentDashboardData(userId) {
+    try {
+        // Fetch student's profile doc from verified singular collection
+        const userDocSnap = await getDoc(doc(db, 'user', userId));
+        if (!userDocSnap.exists()) {
+            console.error('Operational runtime error: Security access mapping token reference missing.');
+            return;
+        }
+
+        const userData = userDocSnap.data();
+        const enrolledCourses = userData.enrolledCourses || [];
+        
+        // Render Top Unlocked Product Track Metrics Counters
+        document.getElementById('metric-courses-count').textContent = enrolledCourses.length;
+        
+        // Evaluate dynamic gatekeeping status parameters
+        const affiliateStatus = userData.isAffiliate || 'none'; // Expected states: 'none', 'pending', 'approved'
+        
+        // Flush structural view layouts completely before evaluation loops running
+        document.getElementById('affiliate-state-none').style.display = 'none';
+        document.getElementById('affiliate-state-pending').style.display = 'none';
+        document.getElementById('affiliate-state-approved').style.display = 'none';
+
+        // ------------------------------------------------------------
+        // AFFILIATE SYSTEM MATRIX CONDITIONAL ROUTING
+        // ------------------------------------------------------------
+        if (affiliateStatus === 'none') {
+            document.getElementById('affiliate-state-none').style.display = 'block';
+            document.getElementById('metric-wallet-balance').textContent = "Locked";
+            document.getElementById('metric-referrals-count').textContent = "Locked";
+            
+            // Wire application action handler securely
+            document.getElementById('btn-submit-affiliate-application').onclick = async () => {
+                try {
+                    await updateDoc(doc(db, 'user', userId), { isAffiliate: 'pending' });
+                    alert('Your affiliate tracking application status has successfully shifted to pending processing records channels.');
+                    window.location.reload();
+                } catch (err) {
+                    console.error("Write error transmitting application metadata:", err);
+                }
+            };
+        } 
+        else if (affiliateStatus === 'pending') {
+            document.getElementById('affiliate-state-pending').style.display = 'block';
+            document.getElementById('metric-wallet-balance').textContent = "Pending Approval";
+            document.getElementById('metric-referrals-count').textContent = "Pending Approval";
+        } 
+        else if (affiliateStatus === 'approved') {
+            document.getElementById('affiliate-state-approved').style.display = 'block';
+            document.getElementById('metric-wallet-balance').textContent = '₦' + (userData.affiliateBalance || 0).toLocaleString();
+            document.getElementById('metric-referrals-count').textContent = userData.referralsCount || 0;
+            document.getElementById('share-link-input').value = `${window.location.origin}/sign-in.html?ref=${userId}`;
+            
+            // Invoke processing sub-functions to fetch reference data logs if necessary
+            await loadReferralLogsHistory(userId);
+        }
+
+        // ------------------------------------------------------------
+        // RENDER ENROLLED DATA CATALOG GRID
+        // ------------------------------------------------------------
+        const coursesSnap = await getDocs(collection(db, 'courses'));
+        const libraryGrid = document.getElementById('library-grid');
+        libraryGrid.innerHTML = '';
+
+        if (enrolledCourses.length === 0 && userData.role !== 'admin') {
+            libraryGrid.innerHTML = `<div style="grid-column: 1/-1; color: #94a3b8;">No purchased products or unlocked modules.</div>`;
+        }
+
+        coursesSnap.forEach(courseDoc => {
+            // Grants complete template evaluation preview to admin accounts for testing layout paths
+            if (enrolledCourses.includes(courseDoc.id) || userData.role === 'admin') {
+                const course = courseDoc.data();
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div class="card-banner">
+                        <img src="${course.thumbnail || '../assets/img/placeholder.png'}" alt="Thumb">
+                        <span class="badge-f ${course.formatType}">${course.formatType.toUpperCase()}</span>
+                    </div>
+                    <div class="card-details">
+                        <span class="category-meta">${course.category?.replace('-', ' ').toUpperCase() || 'TRACK'}</span>
+                        <h3 class="product-title" style="color: #0f172a; margin-bottom: 12px;">${course.title}</h3>
+                        <a href="${course.formatType}-catalog.html?id=${courseDoc.id}" class="btn btn-primary btn-sm" style="width:100%; text-align: center; justify-content: center;">Launch Content Player</a>
+                    </div>
+                `;
+                libraryGrid.appendChild(card);
+            }
+        });
+
+        // ------------------------------------------------------------
+        // HISTORICAL PAYMENT TRANSACTION LOOP RECIEPTS
+        // ------------------------------------------------------------
+        const historyTable = document.getElementById('purchase-history-table');
+        historyTable.innerHTML = '';
+        
+        const purchasesSnap = await getDocs(collection(db, 'user', userId, 'purchases'));
+        if (purchasesSnap.empty) {
+            historyTable.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#94a3b8;">No historical payment receipts tracked inside your profile.</td></tr>`;
+        } else {
+            purchasesSnap.forEach(pDoc => {
+                const pData = pDoc.data();
+                const date = pData.lastAccessedAt ? pData.lastAccessedAt.toDate().toLocaleDateString() : 'Recent Transact';
+                historyTable.innerHTML += `
+                    <tr>
+                        <td><code>${pDoc.id.substring(0,12)}...</code></td>
+                        <td>Course Asset Core Unit</td>
+                        <td>₦${(pData.progress * 100 || 0).toLocaleString()} (Cleared)</td>
+                        <td>${date}</td>
+                    </tr>
+                `;
+            });
+        }
+
+    } catch (err) {
+        console.error("Critical dashboard engine core rendering execution fault:", err);
+    }
+}
+
+// ====================================================================
+// 4. WORKSPACE LOGS SUB-QUERIES (OPTIONAL SYSTEM HOOK)
+// ====================================================================
+async function loadReferralLogsHistory(userId) {
+    const tableBody = document.getElementById('referral-logs-table');
+    // Implement structural query tracking matching your conversions workflow here if tracking referrals collection maps
+}
+
+// ====================================================================
+// 5. GLOBAL INTERACTION INTERFACE PROCEDURES
+// ====================================================================
+
+// Interactive Dashboard Navigation Tabs Switching Core
+window.switchDashboardTab = function(targetTabId, element) {
+    document.querySelectorAll('.dashboard-section-card').forEach(tab => tab.classList.remove('active-tab'));
+    document.querySelectorAll('.nav-item-btn').forEach(btn => btn.classList.remove('active'));
+    
+    document.getElementById(targetTabId).classList.add('active-tab');
+    element.classList.add('active');
+};
+
+// Clipboard System Management Handling API Link Copy
+window.copyTrackingUrl = function() {
+    const input = document.getElementById('share-link-input');
+    if (!input || input.value.includes('Generating')) return;
+    
+    input.select();
+    input.setSelectionRange(0, 99999); // Secure compliance support on mobile browsers
+    navigator.clipboard.writeText(input.value);
+    alert('Your partner affiliate tracking token URL has been clipped successfully!');
+};
+
+// Application Sign Out Session Destruction Hook
+document.getElementById('student-logout-trigger').addEventListener('click', async (e) => {
+    e.preventDefault();
+    try {
+        await signOut(auth);
+        window.location.href = '../sign-in.html';
+    } catch (err) {
+        console.error("Signout error encounter trace execution path:", err);
+    }
+});
+    </script>
+</body>
+</html>

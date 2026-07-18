@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In | Tech Wizard Academy</title>
+
+  <!-- Favicon -->
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+  <link rel="manifest" href="favicon/site.webmanifest">
+
+  <!-- Ionicons -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background-image: url(images/kal-visuals-square.jpg);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .form-outer-container {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .form-inner-container {
+      background-color: rgba(151, 148, 148, 0.596);
+      padding: 30px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      max-width: 450px;
+      width: 100%;
+    }
+   
+    .header {
+      margin-bottom: 20px;
+      color: white;
+    }
+    
+    .header h4 {
+      margin-bottom: 10px;
+      font-weight: bold;
+      font-size: 20px;
+    }
+    
+    .input-group {
+      margin-top: 20px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px;
+      outline: none;
+      border-radius: 5px;
+      border: none;
+      font-size: 15px;
+    }
+
+    .rememberMe {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-container button {
+      padding: 12px;
+      width: 100%;
+      background-color: black;
+      color: turquoise;
+      border: none;
+      border-radius: 6px;
+      font-size: 17px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-container button:hover:not(:disabled) {
+      background-color: #14b8a6;
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .btn-container button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .auth-links {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .auth-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s ease;
+    }
+
+    .auth-links a:hover {
+      color: turquoise;
+      text-decoration: underline;
+    }
+
+    #login-result {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+      display: none;
+    }
+
+    #login-result:not(:empty) {
+      display: block;
+      background: #fef2f2;
+      color: #ef4444;
+      border: 1px solid #fecaca;
+    }
+
+    /* Enrollment Context Banner */
+    #enrollment-context {
+      max-width: 450px;
+      margin: 0 auto 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <main>
+    <div class="form-outer-container">
+
+      <!-- ⭐ ENROLLMENT CONTEXT BANNER (Shows when user is enrolling) -->
+      <div id="enrollment-context" style="display:none; background:#f0fdf4; border:2px solid #14b8a6; border-radius:12px; padding:20px; margin-bottom:20px; text-align:center; width:100%;">
+        <ion-icon name="school-outline" style="font-size:2.5rem; color:#14b8a6; margin-bottom:10px;"></ion-icon>
+        <h3 style="margin:0 0 8px 0; color:#1a1f36;">Complete Your Enrollment</h3>
+        <p style="margin:0; color:#6b7280; font-size:14px;">
+          Login to continue enrolling in your selected course
+        </p>
+      </div>
+
+      <div class="form-inner-container">
+        <div class="header">
+          <h4>Sign In</h4>
+          <p class="mb-0">Enter your email and password to sign in</p>
+        </div>
+
+        <form id="login-form" role="form">
+          <div class="input-group">
+            <input id="log-in-email" type="email" placeholder="Email" required />
+          </div>
+
+          <div class="input-group">
+            <input id="log-in-password" type="password" placeholder="Password" required />
+          </div>
+
+          <div class="rememberMe">
+            <input id="rememberMe" type="checkbox" />
+            <label for="rememberMe">Remember me</label>
+          </div>
+
+          <div class="btn-container">
+            <button id="login-btn" type="submit">Sign in</button>
+          </div>
+        </form>
+
+        <!-- Error/Success Messages -->
+        <div id="login-result"></div>
+
+        <!-- ⭐ SIGNUP LINK (Auto-updated with ?next= parameter) -->
+        <div class="auth-links">
+          <a href="sign-up.html" id="signup-link">Don't have an account? Sign up</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ⭐ MODAL CONTAINER (For success animation) -->
+  <div id="enrollment-success-modal" style="display:none;"></div>
+
+  <!-- ⭐ SCRIPTS - MUST LOAD IN THIS EXACT ORDER -->
+  <!-- <script src="/js/preserve-enrollment-flow.js"></script> -->
+  <script type="module" src="/js/toast-notification.js"></script>
+  <!-- <script type="module" src="/js/enrollment-success-modal.js"></script> -->
+  <script type="module" src="/lib/auth.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Affiliate Program - Tech Wizards Academy</title>
+  <link rel="stylesheet" href="./css/student-dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+  <style>
+    .referral-box {
+      background: #f0fdfa;
+      border: 1px dashed teal;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 25px;
+    }
+    .referral-box code {
+      display: block;
+      background: white;
+      padding: 10px 14px;
+      border-radius: 6px;
+      margin-top: 8px;
+      word-break: break-all;
+      font-size: 14px;
+    }
+    #bank-account-section label {
+      display: block;
+      margin: 12px 0 6px;
+      font-size: 13px;
+      color: #6b7280;
+      font-weight: 600;
+    }
+    #bank-account-section select,
+    #bank-account-section input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    #bank-account-section button { margin-top: 15px; }
+    .commission-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 14px;
+    }
+    .status-processing { background: #fef3c7; color: #92400e; }
+    .status-paid { background: #d1fae5; color: #065f46; }
+    .status-failed { background: #fee2e2; color: #991b1b; }
+    textarea, input[type="text"] {
+      font-family: inherit;
+    }
+  </style>
+
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1605167704195649');
+    fbq('track', 'PageView');
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="dashboard-header">
+      <div class="welcome-section">
+        <h1>Affiliate Program</h1>
+        <p>Earn commission for every student you refer</p>
+      </div>
+      <div class="header-actions">
+        <a href="/students/dashboard.html" class="btn btn-secondary">
+          <ion-icon name="arrow-back-outline"></ion-icon> Back to Dashboard
+        </a>
+      </div>
+    </div>
+
+    <!-- STATE: No application yet -->
+    <div class="courses-section" data-view="apply" style="display:none;">
+      <h2>Apply to become an affiliate</h2>
+      <p style="color:#6b7280; margin: 10px 0 20px;">Tell us a bit about how you plan to share our courses.</p>
+      <label style="display:block; margin-bottom:8px; font-weight:600; font-size:13px; color:#6b7280;">Why do you want to join? (optional)</label>
+      <textarea id="apply-reason" rows="3" style="width:100%; padding:10px 12px; border:1px solid #e5e7eb; border-radius:8px; margin-bottom:15px;"></textarea>
+      <label style="display:block; margin-bottom:8px; font-weight:600; font-size:13px; color:#6b7280;">Your social/website link (optional)</label>
+      <input type="text" id="apply-social-link" placeholder="https://instagram.com/yourhandle" style="width:100%; padding:10px 12px; border:1px solid #e5e7eb; border-radius:8px; margin-bottom:20px;">
+      <button class="btn btn-primary" id="apply-btn">Submit Application</button>
+    </div>
+
+    <!-- STATE: Pending -->
+    <div class="courses-section" data-view="pending" style="display:none;">
+      <div class="empty-state">
+        <ion-icon name="hourglass-outline" style="font-size:48px; color:#f59e0b;"></ion-icon>
+        <h3>Application under review</h3>
+        <p>We'll notify you once an admin approves your application.</p>
+      </div>
+    </div>
+
+    <!-- STATE: Rejected -->
+    <div class="courses-section" data-view="rejected" style="display:none;">
+      <div class="empty-state">
+        <ion-icon name="close-circle-outline" style="font-size:48px; color:#ef4444;"></ion-icon>
+        <h3>Application not approved</h3>
+        <p>Reach out to support if you'd like to discuss this.</p>
+      </div>
+    </div>
+
+    <!-- STATE: Approved -->
+    <div data-view="approved" style="display:none;">
+      <div class="referral-box">
+        <strong>Your referral code:</strong> <span id="referral-code"></span>
+        <p style="margin-top:10px; font-size:13px; color:#6b7280;">Share this link — you earn commission on every purchase made through it:</p>
+        <code id="referral-link"></code>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#d1fae5; color:#065f46;"><ion-icon name="cash-outline"></ion-icon></div>
+          <div class="stat-info"><h3 id="stat-total-earned">₦0</h3><p>Total Earned</p></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#dbeafe; color:#1e40af;"><ion-icon name="wallet-outline"></ion-icon></div>
+          <div class="stat-info"><h3 id="stat-pending-payout">₦0</h3><p>Available for Payout</p></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#fef3c7; color:#92400e;"><ion-icon name="time-outline"></ion-icon></div>
+          <div class="stat-info"><h3 id="stat-awaiting-payout">₦0</h3><p>Processing</p></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#e0e7ff; color:#3730a3;"><ion-icon name="checkmark-done-outline"></ion-icon></div>
+          <div class="stat-info"><h3 id="stat-total-paid">₦0</h3><p>Total Paid Out</p></div>
+        </div>
+      </div>
+
+      <div class="courses-section">
+        <h2>Payout Bank Account</h2>
+        <div id="bank-account-section" style="margin-top:15px;"></div>
+      </div>
+
+      <div class="courses-section" id="payout-section" style="display:none;">
+        <div class="section-header">
+          <h2>Request Payout</h2>
+          <button class="btn btn-primary" id="request-payout-btn">Request Payout</button>
+        </div>
+      </div>
+
+      <div class="courses-section">
+        <h2>Recent Sales</h2>
+        <div id="commissions-list" style="margin-top:15px;"></div>
+      </div>
+
+      <div class="courses-section">
+        <h2>Payout History</h2>
+        <div id="payouts-list" style="margin-top:15px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/affiliate-dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up | Tech Wizard Academy</title>
+  <link rel="stylesheet" href="css/sign-up.css" />
+
+  <!-- Favicon -->
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+  <link rel="manifest" href="favicon/site.webmanifest">
+
+  <!-- Ionicons -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+</head>
+<body>
+
+  <main>
+
+    <!-- ⭐ ENROLLMENT CONTEXT BANNER (Shows when user is enrolling) -->
+     
+    <div id="enrollment-context" style="display:none; background:#f0fdf4; border:2px solid #14b8a6; border-radius:12px; padding:20px; margin:20px auto; max-width:600px; text-align:center;">
+      <ion-icon name="school-outline" style="font-size:2.5rem; color:#14b8a6; margin-bottom:10px;"></ion-icon>
+      <h3 style="margin:0 0 8px 0; color:#1a1f36;">Complete Your Enrollment</h3>
+      <p style="margin:0; color:#6b7280; font-size:14px;">
+        Create an account to enroll in your selected course
+      </p>
+    </div>
+
+    <!-- Signup Section -->
+    <section class="signup-container">
+      <div class="signup-card">
+        <h2>Create Your Account</h2>
+        <p class="subtitle">Join thousands of learners mastering in-demand skills</p>
+
+        <form id="signup-form">
+          <div class="form-group">
+            <input id="firstName" type="text" placeholder="First name" required />
+          </div>
+          <div class="form-group">
+            <input id="lastName" type="text" placeholder="Last name" required />
+          </div>
+          <div class="form-group">
+            <input id="email" type="email" placeholder="Email" required />
+          </div>
+          <div class="form-group">
+            <input id="password" type="password" placeholder="Password (min 6 characters)" required minlength="6" />
+          </div>
+          <div class="form-group">
+            <input id="phone" type="tel" placeholder="Phone" required />
+          </div>
+          <div class="form-group">
+            <select id="course-selection">
+              <option value="">Select a course (optional)</option>
+              <option value="web-design">Web Design</option>
+              <option value="data-analysis">Data Analysis</option>
+              <option value="video-editing">Video Editing</option>
+              <option value="facebook-ads">Facebook Ads</option>
+            </select>
+          </div>
+
+          <div class="checkbox-group">
+            <input type="checkbox" id="terms" checked />
+            <label for="terms">
+              I agree to the <a href="#">Terms and Conditions</a>
+            </label>
+          </div>
+
+          <button id="signup-btn" type="submit">Sign Up</button>
+
+          <!-- ⭐ LOGIN LINK (Auto-updated with ?next= parameter) -->
+          <a href="sign-in.html" id="login-link">Already have an account? Login</a>
+        </form>
+
+        <!-- Error/Success Messages -->
+        <div id="signup-result" style="margin-top:15px; padding:12px; border-radius:8px; display:none;"></div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>© <span id="year"></span> Tech Wizard Academy | by Easblink NG</p>
+    </footer>
+
+  </main>
+
+  <!-- ⭐ MODAL CONTAINER (For success animation) -->
+  <div id="enrollment-success-modal" style="display:none;"></div>
+
+  <!-- ⭐ SCRIPTS - MUST LOAD IN THIS EXACT ORDER -->
+  <script type="module" src="/js/toast-notification.js"></script>
+  <!-- <script type="module" src="/js/enrollment-success-modal.js"></script> -->
+  <script type="module" src="/lib/auth.js"></script>
+  <!-- <script src="/js/preserve-enrollment-flow.js"></script> -->
+
+  <!-- Footer Year -->
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <meta name="description" content="Africa's Largest Skill Acquisition Academy - Master Any Tech Skill for Life"> -->
+    <title>Tech Wizards Academy - Master Digital Skills</title>
+
+    <!-- ============================================ -->
+     <!---styles for the course links-->
+     <style>
+      /* Section Container */
+.course-links {
+  padding: 4rem 1rem;
+  background: #ffffff;
+}
+
+/* Section Header */
+.section-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 3rem;
+}
+
+.section-badge {
+  display: inline-block;
+  background: teal;
+  color: white;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 0.5rem;
+}
+
+.section-description {
+  color: #555;
+  font-size: 1rem;
+}
+
+/* Course Grid */
+.course-links-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* Course Cards */
+.course-link-card {
+  display: block;
+  padding: 2rem;
+  background: #f8fafa;
+  border: 2px solid teal;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #000;
+  transition: 0.3s ease;
+}
+
+.course-link-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: teal;
+}
+
+.course-link-card p {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Hover Effects */
+.course-link-card:hover {
+  background: teal;
+  color: white;
+  transform: translateY(-6px);
+}
+
+.course-link-card:hover h3,
+.course-link-card:hover p {
+  color: white;
+}
+
+/* Responsive Enhancements */
+@media (max-width: 600px) {
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .course-link-card {
+    padding: 1.5rem;
+  }
+}
+
+     </style>
+    <meta
+      name="description"
+      content="Master web development, mobile apps, data analysis, and digital marketing with Tech Wizards Academy. Affordable online tech courses across Nigeria with certificates. Start your tech career today!"
+    />
+
+    <meta
+      name="keywords"
+      content="online tech courses Nigeria, learn coding Nigeria, web development course Nigeria, mobile app development Nigeria, data analysis training Nigeria, digital marketing course Nigeria, tech bootcamp Nigeria, programming courses online Nigeria, affordable tech training, certificate courses Nigeria, tech education Lagos Abuja Port Harcourt"
+    />
+
+    <meta name="author" content="Tech Wizards Academy" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+
+    <!-- ============================================ -->
+    <!-- CANONICAL URL -->
+    <!-- ============================================ -->
+    <link rel="canonical" href="https://tech-wizards-academy.netlify.app/" />
+
+    <!-- ============================================ -->
+    <!-- OPEN GRAPH TAGS (Facebook, LinkedIn, WhatsApp) -->
+    <!-- ============================================ -->
+    <meta property="og:locale" content="en_NG" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Tech Wizards Academy - Become a tech savvy. master any digital skill for life with certificate"
+    />
+    <meta
+      property="og:description"
+      content="Master web development, mobile apps, data analysis, and digital marketing. Affordable online courses with certificates. Join thousands of Nigerian tech professionals."
+    />
+    <meta
+      property="og:url"
+      content="https://tech-wizards-academy.netlify.app/"
+    />
+    <meta property="og:site_name" content="Tech Wizards Academy" />
+    <meta
+      property="og:image"
+      content="https://tech-wizards-academy.netlify.app/images/kal-visuals-square.jpg"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Tech Wizards Academy - Online Tech Education in Nigeria"
+    />
+
+    <!-- ============================================ -->
+    <!-- TWITTER CARD TAGS -->
+    <!-- ============================================ -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Tech Wizards Academy - Learn Coding & Digital Skills Online in Nigeria"
+    />
+    <meta
+      name="twitter:description"
+      content="Master web development, mobile apps, data analysis, and digital marketing. Affordable online courses with certificates."
+    />
+    <meta
+      name="twitter:image"
+      content="https://tech-wizards-academy.netlify.app/images/kal-visuals-square.jpg"
+    />
+    <meta name="twitter:image:alt" content="Tech Wizards Academy" />
+
+    <!-- ============================================ -->
+    <!-- FAVICON & APP ICONS -->
+    <!-- ============================================ -->
+    <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/favicon/favicon-16x16.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <meta name="theme-color" content="#667eea" />
+
+    <!-- ============================================ -->
+    <!-- GEO TAGS (Nigeria - Nationwide) -->
+    <!-- ============================================ -->
+    <meta name="geo.region" content="NG" />
+    <meta name="geo.placename" content="Nigeria" />
+    <meta name="coverage" content="Worldwide" />
+
+    <!-- ============================================ -->
+    <!-- ADDITIONAL SEO TAGS -->
+    <!-- ============================================ -->
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="rating" content="general" />
+    <meta name="distribution" content="global" />
+
+    <!-- ============================================ -->
+    <!-- STRUCTURED DATA (JSON-LD) - Schema.org -->
+    <!-- ============================================ -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "EducationalOrganization",
+        "name": "Tech Wizards Academy",
+        "alternateName": "Tech Wizards",
+        "url": "https://tech-wizards-academy.netlify.app",
+        "logo": "https://tech-wizards-academy.netlify.app/images/logo.png",
+        "description": "Leading online tech education platform in Nigeria offering courses in web development, mobile app development, data analysis, digital marketing, and more.",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "NG",
+          "addressRegion": "Nigeria"
+        },
+        "areaServed": {
+          "@type": "Country",
+          "name": "Nigeria"
+        },
+        "sameAs": ["https://facebook.com/techwizardsacademy"],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Tech Courses",
+          "itemListElement": [
+            {
+              "@type": "OfferCatalog",
+              "name": "Web Development Courses",
+              "itemListElement": [
+                {
+                  "@type": "Course",
+                  "name": "Full Stack Web Development"
+                }
+              ]
+            },
+            {
+              "@type": "OfferCatalog",
+              "name": "Mobile Development Courses"
+            },
+            {
+              "@type": "OfferCatalog",
+              "name": "Data Analysis Courses"
+            },
+            {
+              "@type": "OfferCatalog",
+              "name": "Digital Marketing Courses"
+            },
+            {
+              "@type": "OfferCatalog",
+              "name": "Graphic Design Courses"
+            }
+          ]
+        },
+        "offers": {
+          "@type": "AggregateOffer",
+          "priceCurrency": "NGN",
+          "lowPrice": "15000",
+          "highPrice": "150000",
+          "offerCount": "10+"
+        }
+      }
+    </script>
+
+    <!-- ============================================ -->
+    <!-- BREADCRUMB SCHEMA -->
+    <!-- ============================================ -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://tech-wizards-academy.netlify.app/"
+          }
+        ]
+      }
+    </script>
+
+    <!-- ============================================ -->
+    <!-- PRECONNECT TO EXTERNAL DOMAINS (performance) -->
+    <!-- ============================================ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://www.gstatic.com" />
+    <link rel="dns-prefetch" href="https://www.gstatic.com" />
+
+    <!-- ============================================ -->
+    <!-- FONTS & STYLES -->
+    <!-- ============================================ -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Your existing CSS files -->
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Ionicons -->
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+
+    <link rel="stylesheet" href="css/home.css" />
+    <link rel="stylesheet" href="css/install.css" />
+
+    <!-- Meta Pixel Code -->
+    <script>
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod
+            ? n.callMethod.apply(n, arguments)
+            : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = "2.0";
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(
+        window,
+        document,
+        "script",
+        "https://connect.facebook.net/en_US/fbevents.js"
+      );
+      fbq("init", "1605167704195649");
+      fbq("track", "PageView");
+    </script>
+    <noscript
+      ><img
+        height="1"
+        width="1"
+        style="display: none"
+        src="https://www.facebook.com/tr?id=1605167704195649&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+  </head>
+
+
+
+
+  <body>
+    <!-- ============================================ -->
+    <!-- PRELOADER -->
+    <!-- ============================================ -->
+    <div class="preoader" id="preoader" style="display: none">
+      <div class="preloader-content">
+        <div class="loader-ring"></div>
+        <div class="loader-logo">
+          <img
+            src="images/TECH_WIZARD_ACADEMY_LOGO-removebg-preview.png"
+            alt="Tech Wizards Academy"
+            class="preloader-logo"
+          />
+        </div>
+        <p class="loading-text">Loading Excellence...</p>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- NAVIGATION -->
+    <!-- ============================================ -->
+    <nav class="navbar" id="navbar">
+      <div class="nav-container">
+        <!-- Logo -->
+        <div class="nav-logo">
+          <img
+            src="images/TECH_WIZARD_ACADEMY_LOGO-removebg-preview.png"
+            alt="Tech Wizards Academy"
+          />
+        </div>
+
+        <!-- Navigation Links -->
+        <ul class="nav-links" id="nav-links">
+          <li><a href="#home" class="nav-link active">Home</a></li>
+          <li><a href="about-us.html" class="nav-link">About</a></li>
+          <li><a href="all-courses.html" class="nav-link">Courses</a></li>
+          <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
+          <li><a href="blog.html" class="mobile-nav-link">Blog</a></li>
+        </ul>
+
+        <!-- Profile Icon -->
+        <div class="nav-right">
+          <div class="profile-icon" id="profile-icon">
+            <ion-icon name="person-outline"></ion-icon>
+            <span class="profile-text">Login</span>
+          </div>
+
+          <!-- Mobile Menu Toggle -->
+          <button class="mobile-menu-btn" id="mobile-menu-btn">
+            <ion-icon name="menu-outline" class="menu-icon"></ion-icon>
+            <ion-icon name="close-outline" class="close-icon"></ion-icon>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobile-menu">
+      <ul class="mobile-nav-links">
+        <li><a href="#home" class="mobile-nav-link">Home</a></li>
+        <li><a href="about-us.html" class="mobile-nav-link">About</a></li>
+        <li><a href="all-courses.html" class="mobile-nav-link">Courses</a></li>
+        <li>
+          <a href="#testimonials" class="mobile-nav-link">Testimonials</a>
+        </li>
+        <li><a href="blog.html" class="mobile-nav-link">Blog</a></li>
+      </ul>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- HERO SECTION -->
+    <!-- ============================================ -->
+    <section class="hero" id="home">
+      <div class="hero-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+      </div>
+
+      <div class="hero-container">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span class="badge-icon"
+              ><ion-icon name="ribbon-outline"></ion-icon
+            ></span>
+            <span>Africa's #1 Tech Academy</span>
+          </div>
+
+          <h1 class="hero-title">
+            Master Any <span class="gradient-text">Tech Skill</span> for Life
+            with Certificate
+          </h1>
+
+          <p class="hero-subtitle">
+            Join over 2,600+ learners transforming their lives through digital
+            skills at Tech Wizards Academy, accessing comprehensive premium
+            courses with hands-on projects, lifetime support, Certificate on
+            Completion, and expert mentorship - all at prices that won't break
+            the bank.
+          </p>
+
+          <div class="hero-cta">
+            <a href="all-courses.html" class="btn btn-primary">
+              Browse Courses
+              <ion-icon name="arrow-forward-outline"></ion-icon>
+            </a>
+            <a href="#about" class="btn btn-secondary">
+              Learn More
+              <ion-icon name="chevron-down-outline"></ion-icon>
+            </a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat-item">
+              <h3>1,200+</h3>
+              <p>Active Students</p>
+            </div>
+            <div class="stat-item">
+              <h3>50+</h3>
+              <p>Premium Courses</p>
+            </div>
+            <div class="stat-item">
+              <h3>98%</h3>
+              <p>Success Rate</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-image">
+          <div class="hero-image-wrapper">
+            <img
+              src="/images/hero.png"
+              alt="Tech Learning illustration showing coding and development concepts"
+              class="floating-image"
+              loading="eager"
+            />
+            <div class="floating-card card-1">
+              <ion-icon name="code-slash-outline"></ion-icon>
+              <span>Web Development</span>
+            </div>
+            <div class="floating-card card-2">
+              <ion-icon name="color-palette-outline"></ion-icon>
+              <span>Design</span>
+            </div>
+            <div class="floating-card card-3">
+              <ion-icon name="analytics-outline"></ion-icon>
+              <span>Data Analysis</span>
+            </div>
+            <div class="floating-card card-4">
+              <ion-icon name="book-outline"></ion-icon>
+              <span>More</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- ABOUT SECTION -->
+    <!-- ============================================ -->
+    <section class="about" id="about">
+      <div class="section-container">
+        <div class="about-grid">
+          <div class="about-image">
+            <div class="image-wrapper">
+              <!-- <img src="https://img.freepik.com/free-photo/study-group-african-people_23-2149156390.jpg?semt=ais_hybrid&w=740" alt="Students Learning"> -->
+              <img
+                src="images/kal-visuals-square.jpg"
+                alt="Tech Wizards Academy students collaborating and learning together"
+                loading="lazy"
+              />
+              <div class="image-overlay">
+                <div class="overlay-badge">
+                  <ion-icon name="trophy-outline"></ion-icon>
+                  <span>Award Winning</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-content">
+            <div class="section-badge">About Us</div>
+            <h2 class="section-title">Empowering Africa's Digital Future</h2>
+            <p class="section-description">
+              Welcome to Tech Wizards Academy, Africa's largest skill
+              acquisition academy and your gateway to mastering the digital
+              economy. Whether you're a fresh graduate looking to stand out, a
+              career switcher ready for a new chapter, a business owner wanting
+              to level up, or simply someone passionate about learning - we're
+              here to transform your ambitions into achievements.
+            </p>
+
+            <div class="about-features">
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <ion-icon name="checkmark-circle"></ion-icon>
+                </div>
+                <div class="feature-text">
+                  <h4>Expert Instructors</h4>
+                  <p>Learn from industry professionals</p>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <ion-icon name="checkmark-circle"></ion-icon>
+                </div>
+                <div class="feature-text">
+                  <h4>Lifetime Access</h4>
+                  <p>Learn at your own pace, forever</p>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <ion-icon name="checkmark-circle"></ion-icon>
+                </div>
+                <div class="feature-text">
+                  <h4>Hands-On Projects</h4>
+                  <p>Build real-world portfolio pieces</p>
+                </div>
+              </div>
+            </div>
+
+            <a href="about-us.html" class="btn btn-outline">
+              Read Our Story
+              <ion-icon name="arrow-forward-outline"></ion-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- VALUES SECTION -->
+    <!-- ============================================ -->
+    <section class="values">
+      <div class="section-container">
+        <div class="section-header">
+          <div class="section-badge">Our Core Values</div>
+          <h2 class="section-title">What Sets Us Apart</h2>
+          <p class="section-description">
+            Built on principles that ensure your success
+          </p>
+        </div>
+
+        <div class="values-grid">
+          <div class="value-card">
+            <div class="value-icon">
+              <ion-icon name="school-outline"></ion-icon>
+            </div>
+            <h3>Impactful Education</h3>
+            <p>
+              We don't believe in fluffy theory or outdated tutorials. Every
+              lesson transforms into skills you can use immediately - whether
+              it's landing your first client, acing that interview, or launching
+              your dream project.
+            </p>
+          </div>
+
+          <div class="value-card">
+            <div class="value-icon">
+              <ion-icon name="people-outline"></ion-icon>
+            </div>
+            <h3>Community Focus</h3>
+            <p>
+              You're not just a student number here. We've built a family where
+              every voice matters, every question gets answered, and every
+              success is celebrated. When one of us wins, we all win.
+            </p>
+          </div>
+
+          <div class="value-card">
+            <div class="value-icon">
+              <ion-icon name="wallet-outline"></ion-icon>
+            </div>
+            <h3>Accessibility</h3>
+            <p>
+              Brilliance shouldn't be limited by bank balance. We've made
+              world-class education affordable because talent exists everywhere
+              - opportunity should too.
+            </p>
+          </div>
+
+          <div class="value-card">
+            <div class="value-icon">
+              <ion-icon name="rocket-outline"></ion-icon>
+            </div>
+            <h3>Innovation</h3>
+            <p>
+              While others stick to boring PDFs, we're constantly evolving our
+              learning experience. Cutting-edge tools, fresh approaches, and
+              innovative solutions keep you ahead.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="course-links section-container">
+        <div class="section-header">
+          <div class="section-badge">Popular Courses</div>
+          <h2 class="section-title">Explore Our Top Tech Courses</h2>
+          <p class="section-description">
+            Start your tech journey with our most sought-after courses
+          </p>
+        </div>
+
+        <div class="course-links-grid">
+          <a href="web-development.html" class="course-link-card">
+            <h3>Web Development</h3>
+            <p>Build dynamic websites and applications from scratch.</p>
+          </a>
+
+          <a href="graphic-design.html" class="course-link-card">
+            <h3>Graphic Design</h3>
+            <p>Create stunning visuals and branding materials.</p>
+          </a>
+
+          <a href="data-analysis.html" class="course-link-card">
+            <h3>Data Analysis</h3>
+            <p>Turn data into actionable insights.</p>
+          </a>
+
+          <a href="digital-marketing.html" class="course-link-card">
+            <h3>Digital Marketing</h3>
+            <p>Master online marketing strategies to grow businesses.</p>
+          </a>
+        </div>
+    </section>
+
+
+    <!-- ============================================ -->
+    <!-- HOW IT WORKS -->
+    <!-- ============================================ -->
+    <section class="how-it-works" id="how-it-works">
+      <div class="section-container">
+        <div class="how-it-works-grid">
+          <div class="how-it-works-content">
+            <div class="section-badge">How It Works</div>
+            <h2 class="section-title">Your Path to Success</h2>
+
+            <div class="steps">
+              <div class="step-item">
+                <div class="step-number">01</div>
+                <div class="step-content">
+                  <h3>Choose Your Path</h3>
+                  <p>
+                    Select from 50+ courses designed by industry experts. From
+                    web development to data analysis, find your perfect fit.
+                  </p>
+                </div>
+              </div>
+
+              <div class="step-item">
+                <div class="step-number">02</div>
+                <div class="step-content">
+                  <h3>Learn Your Way</h3>
+                  <p>
+                    Access content in multiple formats - videos, graphics, or
+                    e-books. Learn at your own pace with lifetime access.
+                  </p>
+                </div>
+              </div>
+
+              <div class="step-item">
+                <div class="step-number">03</div>
+                <div class="step-content">
+                  <h3>Build & Grow</h3>
+                  <p>
+                    Work on real projects, get expert feedback, and build a
+                    portfolio that lands you jobs or clients.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <a href="all-courses.html" class="btn btn-primary">
+              View All Courses
+              <ion-icon name="arrow-forward-outline"></ion-icon>
+            </a>
+          </div>
+
+          <div class="how-it-works-image">
+            <img
+              src="images/bonus banner.png"
+              alt="Tech Wizards Academy learning process and methodology illustration"
+              loading="lazy"
+            />
+            <!-- <img src="https://static.euronews.com/articles/1153207/400x225_1153207.jpg" alt="Learning Process"> -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- TESTIMONIALS -->
+    <!-- ============================================ -->
+    <section class="testimonials" id="testimonials">
+      <div class="section-container">
+        <div class="section-header">
+          <div class="section-badge">Success Stories</div>
+          <h2 class="section-title">What Our Students Say</h2>
+          <p class="section-description">Real results from real people</p>
+        </div>
+
+        <div class="testimonials-grid">
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <img
+                src="https://images.pexels.com/photos/28988329/pexels-photo-28988329/free-photo-of-beautiful-nigerian-woman-in-traditional-attire.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                alt="Funmi Bosede Joseph - Tech Wizards Academy Data Analysis graduate"
+                loading="lazy"
+                width="500"
+                height="500"
+              />
+              <div class="testimonial-info">
+                <h4>Funmi Bosede Joseph</h4>
+                <p>Data Analysis</p>
+              </div>
+            </div>
+            <div class="rating">
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+            </div>
+            <p class="testimonial-text">
+              The Data Analysis course was exceptional! The content was
+              well-structured and the support was top-notch. I made my first
+              ₦300k as a student through their job posting program!
+            </p>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNSAzcw0mgbI73SU2fTqfbrVkbQ-Z_nUFjTHjU-NfkazMhyXRcOLB8FekBm_ZJA97dTuw&usqp=CAU"
+                alt="Kemi Basit - Tech Wizards Academy Web Design and Graphic Design graduate"
+                loading="lazy"
+                width="500"
+                height="500"
+              />
+              <div class="testimonial-info">
+                <h4>Kemi Basit</h4>
+                <p>Web Design & Graphic Design</p>
+              </div>
+            </div>
+            <div class="rating">
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+            </div>
+            <p class="testimonial-text">
+              The instructors were always there to help and guide me. Everything
+              was made easy and very enjoyable. Highly recommend!
+            </p>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <img
+                src="https://i.pinimg.com/474x/62/ed/13/62ed13029079484ee376edefad8fa4d0.jpg"
+                alt="James Ojoagefu Daniel - Tech Wizards Academy Video Editing graduate"
+                loading="lazy"
+                width="474"
+                height="474"
+              />
+              <div class="testimonial-info">
+                <h4>James Ojoagefu Daniel</h4>
+                <p>Video Editing</p>
+              </div>
+            </div>
+            <div class="rating">
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+            </div>
+            <p class="testimonial-text">
+              The Video Editing course exceeded my expectations. The support was
+              amazing and I learned skills I now use professionally every day.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- CTA SECTION -->
+    <!-- ============================================ -->
+    <section class="cta-section">
+      <div class="cta-container">
+        <div class="cta-content">
+          <h2>Ready to Equip Yourself with High-Income Digital Skills?</h2>
+          <p>
+            Join the Tech Wizards Acadmy today and start your transformation
+            today!
+          </p>
+          <a href="sign-up.html" class="btn btn-white" target="_blank">
+            Join Community
+            <ion-icon name="arrow-forward-outline"></ion-icon>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+
+    <!-- FOOTER -->
+    <!-- ============================================ -->
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <h3>Tech Wizards Academy</h3>
+            <p>Where talent reaches its true potential</p>
+            <div class="social-links">
+              <a href="#" aria-label="Instagram"
+                ><ion-icon name="logo-instagram"></ion-icon
+              ></a>
+              <a href="#" aria-label="Facebook"
+                ><ion-icon name="logo-facebook"></ion-icon
+              ></a>
+              <a
+                href="https://wa.me/+2349112993504"
+                aria-label="WhatsApp"
+                target="_blank"
+                ><ion-icon name="logo-whatsapp"></ion-icon
+              ></a>
+            </div>
+          </div>
+
+          <div class="footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="about-us.html">About Us</a></li>
+              <li><a href="all-courses.html">Courses</a></li>
+              <li><a href="#testimonials">Testimonials</a></li>
+              <li><a href="#how-it-works">Programs</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-links">
+            <h4>Popular Courses</h4>
+            <ul>
+              <li><a href="ecommerce.html">Web Design</a></li>
+              <li><a href="video-editing.html">Video Editing</a></li>
+              <li><a href="data-analysis.html">Data Analysis</a></li>
+              <li><a href="graphic-design.html">Graphic Design</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-contact">
+            <h4>Contact Us</h4>
+            <div class="contact-item">
+              <ion-icon name="call-outline"></ion-icon>
+              <span>+234 7058091721</span>
+            </div>
+            <div class="contact-item">
+              <ion-icon name="mail-outline"></ion-icon>
+              <span>easblinktech@gmail.com</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>&copy; 2025 Tech Wizards Academy. All rights reserved.</p>
+          <div class="footer-bottom-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/profile-handler.js"></script>
+    <!-- <script src="js/chatBot.js"></script> -->
+    <script src="js/script.js"></script>
+    <!-- PWA: service worker registration and install prompt handling -->
+    <!-- <script src="js/pwa.js"></script> -->
+
+    <!-- <script src="js/pwa-install-ui.js"></script> -->
+  </body>
+</html>

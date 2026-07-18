@@ -1,0 +1,19 @@
+{
+  "name": "tech-wizards-academy",
+  "version": "1.0.0",
+  "description": "Tech Wizards Academy - Platform & Affiliate System",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "firebase-admin": "^12.0.0"
+  },
+  "devDependencies": {
+    "vercel": "^34.0.0"
+  }
+}

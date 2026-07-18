@@ -1,0 +1,386 @@
+/* ============================================
+   COURSES PAGE SPECIFIC STYLES
+   Tech Wizards Academy
+   ============================================ */
+
+/* ============================================
+   COURSES HERO SECTION
+   ============================================ */
+.courses-hero {
+  position: relative;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  padding-top: 100px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f8fafc 0%, #e0f2f1 100%);
+}
+
+.courses-hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.courses-hero-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.courses-hero-content {
+  animation: fadeInUp 1s ease;
+}
+
+.courses-hero-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: var(--text-dark);
+}
+
+.courses-hero-subtitle {
+  font-size: 1.125rem;
+  color: var(--text-light);
+  max-width: 700px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.8;
+}
+
+/* ============================================
+   SEARCH & FILTER BAR
+   ============================================ */
+.courses-search-bar {
+  display: flex;
+  gap: 1rem;
+  max-width: 700px;
+  margin: 0 auto;
+  background: white;
+  padding: 0.75rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.search-input-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 1rem;
+  background: var(--background-alt);
+  border-radius: var(--radius-md);
+}
+
+.search-input-wrapper ion-icon {
+  font-size: 1.25rem;
+  color: var(--text-light);
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 0.75rem 0;
+  font-size: 1rem;
+  color: var(--text-dark);
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: var(--text-light);
+}
+
+.category-select {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: var(--primary-color);
+  color: white;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 0.95rem;
+  outline: none;
+  transition: var(--transition-base);
+}
+
+.category-select:hover {
+  background: var(--primary-dark);
+}
+
+.category-select option {
+  background: white;
+  color: var(--text-dark);
+}
+
+/* ============================================
+   COURSES SECTION
+   ============================================ */
+.courses-section {
+  padding: 4rem 2rem;
+  background: white;
+}
+
+.courses-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ============================================
+   COURSE CARDS GRID (For dynamically loaded courses)
+   ============================================ */
+.course-inner-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+/* Style for individual course cards (works with your existing JS) */
+.c-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition-base);
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+}
+
+.c-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-xl);
+  border-color: var(--primary-color);
+}
+
+.c-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: var(--transition-slow);
+}
+
+.c-card:hover img {
+  transform: scale(1.05);
+}
+
+.c-card .title {
+  padding: 1.5rem 1.5rem 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  line-height: 1.4;
+}
+
+.c-card .active-learners {
+  padding: 0 1.5rem;
+  font-size: 0.875rem;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.c-card .price {
+  padding: 0.5rem 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.c-card .description {
+  padding: 0 1.5rem 1rem;
+  color: var(--text-light);
+  line-height: 1.6;
+  font-size: 0.9rem;
+  flex-grow: 1;
+}
+
+.c-card .rating-container {
+  padding: 0 1.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.c-card .rating-container ion-icon {
+  color: #f59e0b;
+  font-size: 1rem;
+}
+
+.c-card .button-container {
+  padding: 1rem 1.5rem;
+  display: flex;
+  gap: 0.75rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.c-card .view-details-btn,
+.c-card .buy-now-btn {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-align: center;
+  transition: var(--transition-base);
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.c-card .view-details-btn {
+  background: var(--background-alt);
+  color: var(--text-dark);
+  border: 1px solid var(--border-color);
+}
+
+.c-card .view-details-btn:hover {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.c-card .buy-now-btn {
+  background: var(--gradient-primary);
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 128, 128, 0.3);
+}
+
+.c-card .buy-now-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 128, 128, 0.4);
+}
+
+/* ============================================
+   LOADING STATE
+   ============================================ */
+.course-inner-wrapper p {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-light);
+  font-size: 1.125rem;
+}
+
+/* ============================================
+   EMPTY STATE
+   ============================================ */
+.course-inner-wrapper .empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.course-inner-wrapper .empty-state h3 {
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+/* ============================================
+   COURSE DETAIL MODAL (For view details)
+   ============================================ */
+.course-detail-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-modal);
+  padding: 7px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+s
+.course-detail-modal > div {
+  animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 1024px) {
+  .course-inner-wrapper {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .courses-hero {
+    min-height: 50vh;
+    padding-top: 80px;
+  }
+  
+  .courses-hero-title {
+    font-size: 2rem;
+  }
+  
+  .courses-hero-subtitle {
+    font-size: 1rem;
+  }
+  
+  .courses-search-bar {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .category-select {
+    width: 100%;
+  }
+  
+  .course-inner-wrapper {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .courses-hero-title {
+    font-size: 1.75rem;
+  }
+  
+  .c-card .title {
+    font-size: 1.125rem;
+    padding: 1.25rem 1.25rem 0.75rem;
+  }
+  
+  .c-card .price {
+    font-size: 1.25rem;
+  }
+  
+  .c-card .button-container {
+    flex-direction: column;
+  }
+  
+  .c-card .view-details-btn,
+  .c-card .buy-now-btn {
+    width: 100%;
+  }
+}
