@@ -36,7 +36,7 @@
             <div class="brand-logo" style="color: #00bfa6;">KBW Portal</div>
             <ul class="nav-group">
                 <li><div class="nav-item-btn active" onclick="switchDashboardTab('library-pane', this)"><ion-icon name="grid-outline"></ion-icon>My Course Library</div></li>
-                <li><div class="nav-item-btn" onclick="switchDashboardTab('affiliate-pane', this)"><ion-icon name="cash-outline"></ion-icon>Affiliate Balance</div></li>
+                <li><a href="affiliate.html"><div class="nav-item-btn"><ion-icon name="cash-outline"></ion-icon>Affiliate Balance</div></a></li>
                 <li><div class="nav-item-btn" onclick="switchDashboardTab('history-pane', this)"><ion-icon name="receipt-outline"></ion-icon>Purchase History</div></li>
             </ul>
             <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid #334155; display: flex; align-items: center; gap: 12px;">
@@ -74,49 +74,7 @@
                     <div class="loading-placeholder">Syncing active inventory parameters...</div>
                 </div>
             </section>
-
-<!-- TAB 2: AFFILIATE LEDGER CONTROL BOARD (DYNAMIC lifecycle STATES) -->
-<section id="affiliate-pane" class="dashboard-section-card">
-    <h2>Affiliate Monetization Portal</h2>
-    <p style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">Earn commissions on every system registration generated through your uniquely tokenized reference tracking handle.</p>
-    
-    <!-- STATE 1: NOT APPLIED -->
-    <div id="affiliate-state-none" class="empty-state" style="display: none; text-align: center; padding: 40px; background: #1e293b; border: 1px dashed #334155; border-radius: 8px;">
-        <ion-icon name="cash-outline" style="font-size: 48px; color: #94a3b8; margin-bottom: 12px;"></ion-icon>
-        <h3 style="margin-bottom: 8px;">Join the Affiliate Partner Program</h3>
-        <p style="color: #94a3b8; font-size: 14px; margin-bottom: 20px; max-width: 500px; margin-left: auto; margin-right: auto;">Unlock custom earnings tracking links by applying for our administrative vetting pipeline configuration program.</p>
-        <button id="btn-submit-affiliate-application" class="btn btn-primary btn-sm">Submit Partnership Application</button>
-    </div>
-
-    <!-- STATE 2: PENDING REVIEW -->
-    <div id="affiliate-state-pending" class="empty-state" style="display: none; text-align: center; padding: 40px; background: #1e293b; border: 1px solid #eab308; border-radius: 8px; color: #fef08a;">
-        <ion-icon name="time-outline" style="font-size: 48px; color: #eab308; margin-bottom: 12px;"></ion-icon>
-        <h3 style="margin-bottom: 8px; color: #fff;">Application Under Review</h3>
-        <p style="color: #94a3b8; font-size: 14px; max-width: 500px; margin-left: auto; margin-right: auto;">Your request is securely queued in the administrative validation bucket. Links will automatically populate here upon approval credentials synchronization confirmation.</p>
-    </div>
-
-    <!-- STATE 3: FULLY APPROVED CONTENT -->
-    <div id="affiliate-state-approved" style="display: none;">
-        <div class="affiliate-link-box">
-            <input type="text" id="share-link-input" readonly value="Generating tracker code...">
-            <button class="btn btn-primary btn-sm" onclick="copyTrackingUrl()" style="border-radius: 4px;">Copy Link</button>
-        </div>
-
-        <h3 style="margin-top: 32px; margin-bottom: 16px;">Registered Referral Conversions</h3>
-        <table class="data-table-frame">
-            <thead>
-                <tr>
-                    <th>Referral Account ID</th>
-                    <th>Status Flag</th>
-                    <th>Earned Commission Line</th>
-                </tr>
-            </thead>
-            <tbody id="referral-logs-table">
-                <tr><td colspan="3" style="text-align: center; color: #94a3b8;">No tracked conversions linked to your token reference structure.</td></tr>
-            </tbody>
-        </table>
-    </div>
-</section>
+            
 
             <!-- TAB 3: TRANSACTIONAL AUDIT LOG HISTORY -->
             <section id="history-pane" class="dashboard-section-card">
@@ -142,7 +100,7 @@
     <!-- ARCHITECTURE ENGINE CONTROLLER LINK -->
     <script type="module">
    
-      import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js';
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js';
 import { getFirestore, doc, getDoc, collection, getDocs, updateDoc } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js';
 import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js';
 

@@ -28,10 +28,16 @@ module.exports = async (req, res) => {
       });
     }
 
+    // Securely fallback if names aren't provided on the top-level user auth token object
+    const fallbackName = user.displayName || user.email || 'Anonymous Student';
+    const affiliateName = user.firstName 
+      ? `${user.firstName || ''} ${user.lastName || ''}`.trim() 
+      : fallbackName;
+
     const affiliateData = {
       uid: user.uid,
       email: user.email || '',
-      name: `${user.profile.firstName || ''} ${user.profile.lastName || ''}`.trim() || user.email,
+      name: affiliateName,
       code: null,
       status: 'pending',
       commissionRate: null,
