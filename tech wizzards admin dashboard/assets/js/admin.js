@@ -953,7 +953,7 @@ document.getElementById('approve-affiliate-form').addEventListener('submit', asy
     const res = await fetch('/api/affiliates/approve', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` },
-      body: JSON.stringify({ uid: affiliateUid, commissionRate: ratePercent / 100, action: 'approve' })
+      body: JSON.stringify({ affiliateUid, commissionRate: ratePercent / 100, action: 'approve' })
     });
     const json = await res.json();
 
@@ -979,7 +979,7 @@ window.rejectAffiliate = async (affiliateUid) => {
     const res = await fetch('/api/affiliates/approve', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` },
-      body: JSON.stringify({ uid: affiliateUid, action: 'reject' })
+      body: JSON.stringify({ affiliateUid, action: 'reject' })
     });
     const json = await res.json();
 
