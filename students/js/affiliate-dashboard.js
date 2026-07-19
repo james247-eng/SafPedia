@@ -78,15 +78,20 @@ function renderApproved(data) {
   document.getElementById('stat-pending-payout').textContent = `₦${(data.pendingPayout || 0).toLocaleString()}`;
   document.getElementById('stat-awaiting-payout').textContent = `₦${(data.awaitingPayout || 0).toLocaleString()}`;
   document.getElementById('stat-total-paid').textContent = `₦${(data.totalPaidOut || 0).toLocaleString()}`;
-  document.getElementById('stat-total-sales').textContent = data.totalSales || 0;
+  
+  // FIXED: Optional check so it won't crash if the HTML element doesn't exist
+  const salesStatEl = document.getElementById('stat-total-sales');
+  if (salesStatEl) {
+    salesStatEl.textContent = data.totalSales || 0;
+  }
 
   const bankSection = document.getElementById('bank-account-section');
   const payoutSection = document.getElementById('payout-section');
 
   if (data.bankAccount && data.bankAccount.recipientCode) {
     bankSection.innerHTML = `
-      <p><strong>Bank:</strong> ${data.bankAccount.accountName}</p>
-      <p><strong>Account:</strong> ${data.bankAccount.accountNumber}</p>
+      <p style="margin-bottom: 8px;"><strong>Bank Name/Owner:</strong> ${data.bankAccount.accountName}</p>
+      <p style="margin-bottom: 12px;"><strong>Account Number:</strong> ${data.bankAccount.accountNumber}</p>
       <button class="btn btn-secondary" id="change-bank-btn">Change Bank Account</button>
     `;
     document.getElementById('change-bank-btn').addEventListener('click', showBankForm);
@@ -241,7 +246,7 @@ async function loadCommissionHistory() {
     const snap = await getDocs(q);
 
     if (snap.empty) {
-      container.innerHTML = '<p class="empty-state">No sales yet — share your link to get started!</p>';
+      container.innerHTML = '<p class="empty-state" style="padding: 20px; text-align: center; color: #6b7280;">No sales yet — share your link to get started!</p>';
       return;
     }
 
@@ -269,7 +274,7 @@ async function loadPayoutHistory() {
     const snap = await getDocs(q);
 
     if (snap.empty) {
-      container.innerHTML = '<p class="empty-state">No payout requests yet.</p>';
+      container.innerHTML = '<p class="empty-state" style="padding: 20px; text-align: center; color: #6b7280;">No payout requests yet.</p>';
       return;
     }
 
