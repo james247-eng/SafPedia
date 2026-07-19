@@ -4,7 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tech Wizards Academy - Master Digital Skills</title>
+// ====================================================================
+// AFFILIATE REFERRAL TRAFFIC CAPTURE
+// ====================================================================
+(function captureAffiliateReferral() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const referralCode = urlParams.get('ref');
 
+  if (referralCode) {
+    localStorage.setItem('active_referral_token', referralCode);
+    console.log(`📌 Referral token locked into storage: ${referralCode}`);
+  }
+})();
     <meta
       name="description"
       content="Master web development, mobile apps, data analysis, and digital marketing with Tech Wizards Academy. Affordable online tech courses across Nigeria with certificates. Start your tech career today!"
@@ -81,65 +92,6 @@
     <meta name="rating" content="general" />
     <meta name="distribution" content="global" />
 
-    <!-- STRUCTURED DATA -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "EducationalOrganization",
-        "name": "Tech Wizards Academy",
-        "alternateName": "Tech Wizards",
-        "url": "https://tech-wizards-academy.netlify.app",
-        "logo": "https://tech-wizards-academy.netlify.app/images/logo.png",
-        "description": "Leading online tech education platform in Nigeria offering courses in web development, mobile app development, data analysis, digital marketing, and more.",
-        "address": {
-          "@type": "PostalAddress",
-          "addressCountry": "NG",
-          "addressRegion": "Nigeria"
-        },
-        "areaServed": { "@type": "Country", "name": "Nigeria" },
-        "sameAs": ["https://facebook.com/techwizardsacademy"],
-        "hasOfferCatalog": {
-          "@type": "OfferCatalog",
-          "name": "Tech Courses",
-          "itemListElement": [
-            {
-              "@type": "OfferCatalog",
-              "name": "Web Development Courses",
-              "itemListElement": [
-                { "@type": "Course", "name": "Full Stack Web Development" }
-              ]
-            },
-            { "@type": "OfferCatalog", "name": "Mobile Development Courses" },
-            { "@type": "OfferCatalog", "name": "Data Analysis Courses" },
-            { "@type": "OfferCatalog", "name": "Digital Marketing Courses" },
-            { "@type": "OfferCatalog", "name": "Graphic Design Courses" }
-          ]
-        },
-        "offers": {
-          "@type": "AggregateOffer",
-          "priceCurrency": "NGN",
-          "lowPrice": "15000",
-          "highPrice": "150000",
-          "offerCount": "10+"
-        }
-      }
-    </script>
-
-    <!-- BREADCRUMB SCHEMA -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://tech-wizards-academy.netlify.app/"
-          }
-        ]
-      }
-    </script>
 
     <!-- PRECONNECT -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -159,36 +111,6 @@
 
     <link rel="stylesheet" href="css/home.css" />
     <link rel="stylesheet" href="css/install.css" />
-
-    <!-- Meta Pixel Code -->
-    <script>
-      !(function (f, b, e, v, n, t, s) {
-        if (f.fbq) return;
-        n = f.fbq = function () {
-          n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
-        };
-        if (!f._fbq) f._fbq = n;
-        n.push = n;
-        n.loaded = !0;
-        n.version = "2.0";
-        n.queue = [];
-        t = b.createElement(e);
-        t.async = !0;
-        t.src = v;
-        s = b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t, s);
-      })(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
-      fbq("init", "1605167704195649");
-      fbq("track", "PageView");
-    </script>
-    <noscript
-      ><img
-        height="1"
-        width="1"
-        style="display: none"
-        src="https://www.facebook.com/tr?id=1605167704195649&ev=PageView&noscript=1"
-    /></noscript>
-    <!-- End Meta Pixel Code -->
   </head>
 
   <body>
@@ -260,11 +182,11 @@
         <div class="hero-content">
           <div class="hero-badge">
             <span class="badge-icon"><ion-icon name="ribbon-outline"></ion-icon></span>
-            <span>Africa's #1 Tech Academy</span>
+            <span>Africa's #1 E-learning Platform</span>
           </div>
 
           <h1 class="hero-title">
-            Master Any <span class="accent-text">Tech Skill</span> for Life with Certificate
+            Welcome to <span class="accent-text">SafPedia Concept</span> for Life with Certificate
           </h1>
 
           <p class="hero-subtitle">
@@ -691,7 +613,6 @@
 
     <!-- Scripts -->
     <script type="module" src="js/auth.js"></script>
-    <script type="module" src="js/profile-handler.js"></script>
     <script src="js/script.js"></script>
   </body>
 </html>

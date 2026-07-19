@@ -4,7 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Course Details | Tech Wizards Academy</title>
-  
+  // ====================================================================
+// AFFILIATE REFERRAL TRAFFIC CAPTURE
+// ====================================================================
+(function captureAffiliateReferral() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const referralCode = urlParams.get('ref');
+
+  if (referralCode) {
+    localStorage.setItem('active_referral_token', referralCode);
+    console.log(`📌 Referral token locked into storage: ${referralCode}`);
+  }
+})();
   <!-- Favicon -->
   <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
