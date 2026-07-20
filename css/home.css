@@ -1,5 +1,5 @@
 /* ============================================
-   TECH WIZARDS ACADEMY — BRAND STYLESHEET
+   SAFPEDIA — BRAND STYLESHEET
    Primary: Blue  |  Secondary: Red  |  Base: White
    ============================================ */
 :root {
@@ -20,7 +20,7 @@
   --color-line: #E3E8EF;
 
   /* Type */
-  --font-display: 'Fraunces', Georgia, serif;
+  --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   /* Radius */
@@ -72,7 +72,8 @@ input:focus-visible {
 /* ============================================
    PRELOADER
    ============================================ */
-.preloader {
+.preloader,
+.preoader {
   position: fixed;
   inset: 0;
   background: var(--color-white);
@@ -83,7 +84,8 @@ input:focus-visible {
   transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
-.preloader.hidden { opacity: 0; visibility: hidden; }
+.preloader.hidden,
+.preoader.hidden { opacity: 0; visibility: hidden; }
 
 .preloader-content { text-align: center; position: relative; }
 
@@ -244,16 +246,36 @@ input:focus-visible {
   background: var(--color-white);
 }
 
-.hero-bg { position: absolute; inset: 0; z-index: -1; }
+.hero-bg { position: absolute; inset: 0; z-index: -1; overflow: hidden; }
 
-.glow-orb {
+.gradient-orb {
   position: absolute;
+  border-radius: 50%;
+  filter: blur(2px);
+}
+
+.orb-1 {
   top: -15%;
   right: -10%;
   width: 620px;
   height: 620px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(22, 64, 126, 0.10) 0%, rgba(22, 64, 126, 0) 70%);
+  background: radial-gradient(circle, rgba(22, 64, 126, 0.12) 0%, rgba(22, 64, 126, 0) 70%);
+}
+
+.orb-2 {
+  bottom: -20%;
+  left: -8%;
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, rgba(180, 35, 44, 0.08) 0%, rgba(180, 35, 44, 0) 70%);
+}
+
+.orb-3 {
+  top: 40%;
+  left: 30%;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(44, 99, 176, 0.07) 0%, rgba(44, 99, 176, 0) 70%);
 }
 
 .hero-container {
@@ -295,9 +317,11 @@ input:focus-visible {
   letter-spacing: -0.01em;
 }
 
-.accent-text {
-  color: var(--color-secondary);
-  font-style: italic;
+.gradient-text {
+  background: linear-gradient(100deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .hero-subtitle {
@@ -584,6 +608,20 @@ input:focus-visible {
 
 .course-link-card:hover h3,
 .course-link-card:hover p { color: var(--color-white); }
+
+.course-link-card--action {
+  border-color: var(--color-secondary);
+  background: var(--color-secondary-light);
+}
+
+.course-link-card--action h3 { color: var(--color-secondary); }
+
+.course-link-card--action:hover {
+  background: var(--color-secondary);
+}
+
+.course-link-card--action:hover h3,
+.course-link-card--action:hover p { color: var(--color-white); }
 
 /* ============================================
    HOW IT WORKS
