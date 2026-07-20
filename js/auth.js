@@ -2,7 +2,7 @@ import { auth, db } from '/firebase-config.js'; // Centralized shared instance
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
 import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-import { showToast, showLoading } from './js/toast-notification.js';
+import { showToast, showLoading } from './toast-notification.js';
 
 // Initialize Analytics using the shared app instance behind the config if needed
 const analytics = getAnalytics(auth.app);

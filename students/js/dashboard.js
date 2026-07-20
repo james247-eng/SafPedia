@@ -1,22 +1,21 @@
-
 // ====================================================================
-// STUDENT DASHBOARD - Multi-Lesson System (FIXED v4 - Direct Checkout)
-// Tech Wizards Academy
+// STUDENT DASHBOARD - COMPLETE ENGINE (FIXED V6 - NO AFFILIATE LOGIC)
+// Tech Wizards Academy — Key Board Wizards
 // ====================================================================
 
 import { auth, db } from '../../firebase-config.js';
 import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js';
-import { doc, getDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js';
+import { doc, getDoc, collection, getDocs, updateDoc } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js';
 
 // ====================================================================
-// GLOBAL VARIABLES
+// GLOBAL STATE VARIABLES
 // ====================================================================
 let currentUser = null;
 let enrolledCourses = [];
 let isLoadingCourses = false;
 
 // ====================================================================
-// AUTHENTICATION CHECK
+// AUTHENTICATION LIFECYCLE MONITOR
 // ====================================================================
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
@@ -28,18 +27,14 @@ onAuthStateChanged(auth, async (user) => {
   console.log('✅ User authenticated:', user.email);
 
   try {
-    const userDoc = await getDoc(doc(db, 'user', user.uid));
-    const profile = userDoc.exists() ? userDoc.data() : {};
+    const userEmailEl = document.getElementById('user-display-email');
+    const avatarSlotEl = document.getElementById('admin-avatar-slot');
     
-    const firstName = profile.firstName || user.email.split('@')[0];
-    const welcomeText = document.getElementById('welcome-text');
-    if (welcomeText) {
-      welcomeText.textContent = `Welcome back, ${firstName}! 👋`;
-    }
+    if (userEmailEl) userEmailEl.textContent = user.email || "Student Account";
+    if (avatarSlotEl) avatarSlotEl.textContent = (user.email || 'U').charAt(0).toUpperCase();
     
-    await loadUserCourses();
-    
-    // ⭐ Check for pending enrollment after login (DIRECT CHECKOUT)
+    // Master data sync pipelines
+    await loadStudentDashboardData(user.uid);
     await checkPendingEnrollment();
     
   } catch (error) {
@@ -49,263 +44,53 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 // ====================================================================
-// ⭐ FIXED: CHECK FOR PENDING ENROLLMENT (Direct Checkout - No Redirect)
+// CORE ENGINE & METRICS ROUTER
 // ====================================================================
-async function checkPendingEnrollment() {
-  const pending = localStorage.getItem('pendingEnrollment');
-  
-  if (!pending) {
-    return; // No pending enrollment
-  }
-
-  try {
-    const data = JSON.parse(pending);
-    console.log('📌 Found pending enrollment:', data);
-    
-    // Validate data
-    if (!data.courseId) {
-      console.warn('⚠️ Invalid pending enrollment data');
-      localStorage.removeItem('pendingEnrollment');
-      return;
-    }
-
-    // Check if enrollment is not too old (24 hours)
-    const maxAge = 24 * 60 * 60 * 1000; // 24 hours
-    if (data.timestamp && (Date.now() - data.timestamp > maxAge)) {
-      console.log('⏰ Pending enrollment expired');
-      localStorage.removeItem('pendingEnrollment');
-      return;
-    }
-
-    // Clear localStorage immediately to prevent loops
-    localStorage.removeItem('pendingEnrollment');
-    
-    // Show notification to user
-    showEnrollmentNotification(data);
-    
-    // ⭐ Wait for checkout system to load
-    console.log('⏳ Waiting for checkout system...');
-    const checkoutReady = await waitForCheckout(10000); // 10 second timeout
-    
-    if (checkoutReady && typeof window.startPurchase === 'function') {
-      // ⭐ Trigger checkout DIRECTLY (no redirect to all-courses page!)
-      setTimeout(() => {
-        console.log('💳 Triggering direct checkout for:', data.courseId);
-        window.startPurchase(data.courseId);
-      }, 1500); // Small delay to let dashboard load visually
-    } else {
-      console.error('❌ Checkout system not available');
-      
-      // Fallback: offer manual navigation
-      const fallbackNotification = document.createElement('div');
-      fallbackNotification.style.cssText = `
-        position: fixed;
-        top: 80px;
-        right: 20px;
-        background: #ef4444;
-        color: white;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3);
-        z-index: 10001;
-        max-width: 350px;
-      `;
-      
-      fallbackNotification.innerHTML = `
-        <div style="display: flex; align-items: start; gap: 12px;">
-          <ion-icon name="alert-circle" style="font-size: 24px; flex-shrink: 0;"></ion-icon>
-          <div>
-            <strong style="display: block; margin-bottom: 8px;">Checkout Unavailable</strong>
-            <p style="font-size: 14px; margin: 0 0 12px 0; opacity: 0.95;">
-              Unable to continue enrollment automatically.
-            </p>
-            <button onclick="window.location.href='/all-courses.html'" style="background: white; color: #ef4444; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600;">
-              Go to Courses
-            </button>
-          </div>
-        </div>
-      `;
-      
-      document.body.appendChild(fallbackNotification);
-      
-      setTimeout(() => {
-        fallbackNotification.remove();
-      }, 8000);
-    }
-    
-  } catch (error) {
-    console.error('❌ Error processing pending enrollment:', error);
-    localStorage.removeItem('pendingEnrollment');
-  }
-}
-
-// ====================================================================
-// ⭐ NEW: Wait for checkout system to load
-// ====================================================================
-function waitForCheckout(maxWait = 10000) {
-  return new Promise((resolve) => {
-    // Already loaded
-    if (typeof window.startPurchase === 'function') {
-      console.log('✅ Checkout system ready');
-      resolve(true);
-      return;
-    }
-    
-    console.log('⏳ Waiting for checkout system to load...');
-    let waited = 0;
-    const checkInterval = 100; // Check every 100ms
-    
-    const interval = setInterval(() => {
-      if (typeof window.startPurchase === 'function') {
-        clearInterval(interval);
-        console.log('✅ Checkout system loaded after', waited, 'ms');
-        resolve(true);
-        return;
-      }
-      
-      waited += checkInterval;
-      
-      if (waited >= maxWait) {
-        clearInterval(interval);
-        console.warn('⚠️ Checkout system timeout after', maxWait, 'ms');
-        resolve(false);
-      }
-    }, checkInterval);
-  });
-}
-
-// ====================================================================
-// ⭐ Show Enrollment Notification
-// ====================================================================
-function showEnrollmentNotification(data) {
-  const notification = document.createElement('div');
-  notification.style.cssText = `
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
-    color: white;
-    padding: 20px 25px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(20, 184, 166, 0.3);
-    z-index: 10000;
-    max-width: 350px;
-    animation: slideIn 0.3s ease-out;
-  `;
-  
-  notification.innerHTML = `
-    <div style="display: flex; align-items: center; gap: 12px;">
-      <ion-icon name="information-circle" style="font-size: 24px;"></ion-icon>
-      <div>
-        <strong style="display: block; margin-bottom: 5px;">Continuing your enrollment...</strong>
-        <span style="font-size: 14px; opacity: 0.95;">
-          ${data.courseTitle || 'Selected Course'}
-        </span>
-      </div>
-    </div>
-  `;
-  
-  document.body.appendChild(notification);
-  
-  // Add animation styles
-  if (!document.getElementById('notification-styles')) {
-    const style = document.createElement('style');
-    style.id = 'notification-styles';
-    style.textContent = `
-      @keyframes slideIn {
-        from {
-          transform: translateX(400px);
-          opacity: 0;
-        }
-        to {
-          transform: translateX(0);
-          opacity: 1;
-        }
-      }
-    `;
-    document.head.appendChild(style);
-  }
-  
-  // Remove after checkout triggers
-  setTimeout(() => {
-    notification.style.animation = 'slideIn 0.3s ease-out reverse';
-    setTimeout(() => notification.remove(), 300);
-  }, 3000);
-}
-
-// ====================================================================
-// LOGOUT FUNCTIONALITY
-// ====================================================================
-const logoutBtn = document.getElementById('logout-btn');
-if (logoutBtn) {
-  logoutBtn.addEventListener('click', async () => {
-    try {
-      await signOut(auth);
-      window.location.href = '/index.html';
-    } catch (error) {
-      console.error('Logout error:', error);
-      alert('Error logging out. Please try again.');
-    }
-  });
-}
-
-// ====================================================================
-// LOAD USER'S ENROLLED COURSES (ENHANCED FIX)
-// ====================================================================
-async function loadUserCourses() {
+async function loadStudentDashboardData(userId) {
   if (isLoadingCourses) {
-    console.log('⏳ Already loading courses, skipping...');
+    console.log('⏳ Already loading inventory data, skipping...');
     return;
   }
-
-  if (!currentUser) {
-    console.warn('⚠️ Cannot load courses: User not authenticated yet');
-    return;
-  }
-
+  
   isLoadingCourses = true;
 
   try {
-    console.log('📚 Loading courses for:', currentUser.uid);
+    console.log('📚 Loading student profile records for:', userId);
     
-    const container = document.getElementById('courses-container');
-    if (!container) {
-      console.error('❌ courses-container not found');
+    const libraryGrid = document.getElementById('library-grid');
+    if (!libraryGrid) {
+      console.error('❌ Essential DOM element library-grid not found');
       isLoadingCourses = false;
       return;
     }
 
-    container.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading your courses...</p></div>';
+    // Set initial loading visual state
+    libraryGrid.innerHTML = '<div class="loading-placeholder">Syncing active inventory parameters...</div>';
 
-    const userDocRef = doc(db, 'user', currentUser.uid);
-    const userDoc = await getDoc(userDocRef);
-    
-    if (!userDoc.exists()) {
-      console.warn('⚠️ User document does not exist');
-      showEmptyState();
+    // Fetch user document from Firestore
+    const userDocSnap = await getDoc(doc(db, 'user', userId));
+    if (!userDocSnap.exists()) {
+      console.error('Operational runtime error: Security access mapping token reference missing.');
+      showError('Profile tracking map not found.');
       isLoadingCourses = false;
       return;
     }
 
-    const userData = userDoc.data();
+    const userData = userDocSnap.data();
     let enrolledCoursesData = userData.enrolledCourses || [];
 
-    console.log('📋 Raw enrolled courses data:', enrolledCoursesData);
+    console.log('📋 Raw enrolled data payload:', enrolledCoursesData);
 
-    // ✅ FIX: Normalize and clean enrollment data
+    // Normalize incoming data configurations safely
     const cleanedEnrollments = [];
     let needsUpdate = false;
 
     for (let i = 0; i < enrolledCoursesData.length; i++) {
       const enrollment = enrolledCoursesData[i];
+      let normalized = null;
 
-      // Handle different data formats
-      let normalizedEnrollment = null;
-
-      // Case 1: String (just courseId)
       if (typeof enrollment === 'string') {
-        console.log(`🔧 Converting string enrollment: ${enrollment}`);
-        normalizedEnrollment = {
+        normalized = {
           courseId: enrollment,
           progress: 0,
           completedLessons: [],
@@ -313,486 +98,339 @@ async function loadUserCourses() {
           isCompleted: false
         };
         needsUpdate = true;
-      }
-      // Case 2: Object with courseId
-      else if (enrollment && typeof enrollment === 'object' && enrollment.courseId) {
-        normalizedEnrollment = {
+      } else if (enrollment && typeof enrollment === 'object' && enrollment.courseId) {
+        normalized = {
           courseId: enrollment.courseId,
           progress: enrollment.progress || 0,
           completedLessons: enrollment.completedLessons || [],
           lastAccessedLesson: enrollment.lastAccessedLesson || 0,
           isCompleted: enrollment.isCompleted || false
         };
-        
-        // Only add optional fields if they exist
-        if (enrollment.lastAccessedAt) {
-          normalizedEnrollment.lastAccessedAt = enrollment.lastAccessedAt;
-        }
-        if (enrollment.enrolledAt) {
-          normalizedEnrollment.enrolledAt = enrollment.enrolledAt;
-        }
-        if (enrollment.completedAt) {
-          normalizedEnrollment.completedAt = enrollment.completedAt;
-        }
-      }
-      // Case 3: Invalid data
-      else {
-        console.warn(`⚠️ Skipping invalid enrollment at index ${i}:`, enrollment);
+        if (enrollment.lastAccessedAt) normalized.lastAccessedAt = enrollment.lastAccessedAt;
+        if (enrollment.enrolledAt) normalized.enrolledAt = enrollment.enrolledAt;
+        if (enrollment.completedAt) normalized.completedAt = enrollment.completedAt;
+      } else {
         needsUpdate = true;
         continue;
       }
 
-      // Validate courseId is a non-empty string
-      if (normalizedEnrollment && 
-          normalizedEnrollment.courseId && 
-          typeof normalizedEnrollment.courseId === 'string' &&
-          normalizedEnrollment.courseId.trim().length > 0) {
-        cleanedEnrollments.push(normalizedEnrollment);
+      if (normalized && normalized.courseId && typeof normalized.courseId === 'string' && normalized.courseId.trim().length > 0) {
+        cleanedEnrollments.push(normalized);
       } else {
-        console.warn(`⚠️ Invalid courseId in enrollment:`, normalizedEnrollment);
         needsUpdate = true;
       }
     }
 
-    // Update Firestore if data was cleaned
+    // Clean up DB schema structural arrays if anomalies were detected
     if (needsUpdate && cleanedEnrollments.length > 0) {
-      console.log('🔄 Updating cleaned enrollment data in Firestore...');
       try {
-        await updateDoc(userDocRef, {
-          enrolledCourses: cleanedEnrollments
-        });
-        console.log('✅ Enrollment data cleaned successfully');
-      } catch (updateError) {
-        console.error('❌ Error updating cleaned data:', updateError);
+        await updateDoc(doc(db, 'user', userId), { enrolledCourses: cleanedEnrollments });
+        console.log('✅ Cleaned enrollment schema updated in Firestore.');
+      } catch (err) {
+        console.error('❌ Error tracking normalization update:', err);
       }
     }
 
-    if (cleanedEnrollments.length === 0) {
-      console.log('📭 No valid enrollments found');
+    enrolledCourses = [];
+
+    // Query entire course inventory from db collection
+    const coursesSnap = await getDocs(collection(db, 'courses'));
+    libraryGrid.innerHTML = '';
+
+    // If student has no courses and isn't an admin, break out to empty state view
+    if (cleanedEnrollments.length === 0 && userData.role !== 'admin') {
       showEmptyState();
       isLoadingCourses = false;
       return;
     }
 
-    // Load course details
-    enrolledCourses = [];
-    let completedCount = 0;
-    let inProgressCount = 0;
-
-    console.log(`🔍 Loading ${cleanedEnrollments.length} course(s)...`);
-
-    for (const enrollment of cleanedEnrollments) {
-      try {
-        console.log(`📖 Fetching course: ${enrollment.courseId}`);
+    coursesSnap.forEach(courseDoc => {
+      const matchingEnrollment = cleanedEnrollments.find(e => e.courseId === courseDoc.id);
+      
+      // Render card if user owns the course or has admin role privileges
+      if (matchingEnrollment || userData.role === 'admin') {
+        const courseData = courseDoc.data();
+        const fallbackEnrollment = {
+          courseId: courseDoc.id,
+          progress: 0,
+          completedLessons: [],
+          lastAccessedLesson: 0,
+          isCompleted: false
+        };
         
-        const courseDoc = await getDoc(doc(db, 'courses', enrollment.courseId));
+        const activeEnrollment = matchingEnrollment || fallbackEnrollment;
         
-        if (courseDoc.exists()) {
-          const courseData = courseDoc.data();
-          
-          enrolledCourses.push({
-            courseId: enrollment.courseId,
-            course: courseData,
-            progress: enrollment.progress || 0,
-            completedLessons: enrollment.completedLessons || [],
-            lastAccessedLesson: enrollment.lastAccessedLesson || 0,
-            lastAccessedAt: enrollment.lastAccessedAt,
-            isCompleted: enrollment.isCompleted || false,
-            completedAt: enrollment.completedAt,
-            enrolledAt: enrollment.enrolledAt
-          });
+        enrolledCourses.push({
+          courseId: courseDoc.id,
+          course: courseData,
+          ...activeEnrollment
+        });
+        
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.style.cssText = "background: #1e293b; border: 1px solid #334155; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column;";
+        
+        const progress = activeEnrollment.progress || 0;
+        const totalLessons = courseData.totalLessons || courseData.lessons?.length || 0;
+        const completedLessons = activeEnrollment.completedLessons?.length || 0;
 
-          if (enrollment.isCompleted) {
-            completedCount++;
-          } else if (enrollment.progress > 0) {
-            inProgressCount++;
-          }
+        card.innerHTML = `
+          <div style="position: relative; width: 100%; height: 160px; overflow: hidden; background: #0f172a;">
+              <img src="${courseData.thumbnail || '../assets/img/placeholder.png'}" alt="Thumb" style="width: 100%; height: 100%; object-fit: cover;">
+              <span class="badge-f ${courseData.formatType || 'video'}" style="position: absolute; top: 12px; right: 12px; background: #4f46e5; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase;">${courseData.formatType || 'VIDEO'}</span>
+              ${activeEnrollment.isCompleted ? '<div style="position: absolute; bottom: 12px; left: 12px; background: #14b8a6; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 4px;"><ion-icon name="checkmark-circle"></ion-icon> Completed</div>' : ''}
+          </div>
+          <div style="padding: 20px; flex-grow: 1; display: flex; flex-direction: column; gap: 12px;">
+              <span style="font-size: 11px; color: #00bfa6; font-weight: 700; letter-spacing: 0.05em;">${courseData.category?.replace('-', ' ').toUpperCase() || 'TRACK'}</span>
+              <h3 style="font-size: 16px; font-weight: 600; color: #fff; margin: 0; line-height: 1.4;">${courseData.title}</h3>
+              
+              <div style="display: flex; justify-content: space-between; font-size: 12px; color: #94a3b8; margin-top: 4px;">
+                <span><ion-icon name="book-outline"></ion-icon> ${completedLessons}/${totalLessons} Lessons</span>
+                <span>${progress}% Complete</span>
+              </div>
 
-          console.log(`✅ Loaded: ${courseData.title}`);
-        } else {
-          console.warn(`⚠️ Course not found: ${enrollment.courseId}`);
-        }
-      } catch (error) {
-        console.error(`❌ Error loading course ${enrollment.courseId}:`, error);
+              <div style="width: 100%; background: #0f172a; height: 6px; border-radius: 3px; overflow: hidden;">
+                <div style="width: ${progress}%; background: #00bfa6; height: 100%; transition: width 0.3s;"></div>
+              </div>
+
+              <div style="margin-top: auto; display: flex; flex-direction: column; gap: 8px; pt: 8px;">
+                <button class="nav-item-btn active" onclick="continueCourse('${courseDoc.id}')" style="width: 100%; justify-content: center; font-size: 14px; padding: 10px;">
+                    <ion-icon name="${progress > 0 ? 'play' : 'play-circle'}-outline"></ion-icon>
+                    ${progress > 0 ? 'Continue Learning' : 'Start Course'}
+                </button>
+                ${activeEnrollment.isCompleted ? `
+                  <button class="nav-item-btn" onclick="viewCertificate('${courseDoc.id}')" style="width: 100%; justify-content: center; font-size: 14px; padding: 10px; background: #14b8a6; color: #fff;">
+                    <ion-icon name="ribbon-outline"></ion-icon> Certificate
+                  </button>
+                ` : ''}
+              </div>
+          </div>
+        `;
+        libraryGrid.appendChild(card);
       }
-    }
+    });
 
-    // Update stats
-    const totalCoursesEl = document.getElementById('total-courses');
-    const completedCoursesEl = document.getElementById('completed-courses');
-    const inProgressCoursesEl = document.getElementById('in-progress-courses');
-
-    if (totalCoursesEl) totalCoursesEl.textContent = enrolledCourses.length;
-    if (completedCoursesEl) completedCoursesEl.textContent = completedCount;
-    if (inProgressCoursesEl) inProgressCoursesEl.textContent = inProgressCount;
-
-    // Display courses
-    if (enrolledCourses.length > 0) {
-      displayCourses();
-      console.log(`🎉 Successfully loaded ${enrolledCourses.length} course(s)`);
-    } else {
+    // If nothing structural rendered because filters omitted entries
+    if (libraryGrid.innerHTML === '') {
       showEmptyState();
     }
 
-  } catch (error) {
-    console.error('❌ Error loading courses:', error);
-    showError('Error loading your courses. Please refresh the page.');
+    // ------------------------------------------------------------
+    // HISTORICAL PAYMENT TRANSACTION LOOP RECEIPTS
+    // ------------------------------------------------------------
+    const historyTable = document.getElementById('purchase-history-table');
+    if (historyTable) {
+      historyTable.innerHTML = '';
+      const purchasesSnap = await getDocs(collection(db, 'user', userId, 'purchases'));
+      
+      if (purchasesSnap.empty) {
+        historyTable.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#94a3b8;">No historical payment receipts tracked inside your profile.</td></tr>`;
+      } else {
+        purchasesSnap.forEach(pDoc => {
+          const pData = pDoc.data();
+          const date = pData.lastAccessedAt ? pData.lastAccessedAt.toDate().toLocaleDateString() : 'Recent Transact';
+          historyTable.innerHTML += `
+              <tr>
+                  <td><code>${pDoc.id.substring(0,12)}...</code></td>
+                  <td>Course Asset Core Unit</td>
+                  <td>₦${(pData.progress * 100 || 0).toLocaleString()} (Cleared)</td>
+                  <td>${date}</td>
+              </tr>
+          `;
+        });
+      }
+    }
+
+  } catch (err) {
+    console.error("Critical dashboard engine core rendering execution fault:", err);
+    showError('Critical failure rendering inventory matrices.');
   } finally {
     isLoadingCourses = false;
   }
 }
 
 // ====================================================================
-// DISPLAY COURSES ON PAGE
+// CHECK FOR PENDING ENROLLMENT (Direct Checkout)
 // ====================================================================
-function displayCourses() {
-  const container = document.getElementById('courses-container');
-  
-  if (!container) {
-    console.error('courses-container element not found');
-    return;
+async function checkPendingEnrollment() {
+  const pending = localStorage.getItem('pendingEnrollment');
+  if (!pending) return;
+
+  try {
+    const data = JSON.parse(pending);
+    if (!data.courseId) {
+      localStorage.removeItem('pendingEnrollment');
+      return;
+    }
+
+    const maxAge = 24 * 60 * 60 * 1000; 
+    if (data.timestamp && (Date.now() - data.timestamp > maxAge)) {
+      localStorage.removeItem('pendingEnrollment');
+      return;
+    }
+
+    localStorage.removeItem('pendingEnrollment');
+    showEnrollmentNotification(data);
+    
+    console.log('⏳ Waiting for checkout system modules...');
+    const checkoutReady = await waitForCheckout(10000);
+    
+    if (checkoutReady && typeof window.startPurchase === 'function') {
+      setTimeout(() => {
+        console.log('💳 Triggering direct checkout for:', data.courseId);
+        window.startPurchase(data.courseId);
+      }, 1500);
+    }
+  } catch (error) {
+    console.error('❌ Error processing pending enrollment:', error);
+    localStorage.removeItem('pendingEnrollment');
   }
-
-  if (enrolledCourses.length === 0) {
-    showEmptyState();
-    return;
-  }
-
-  const grid = document.createElement('div');
-  grid.className = 'courses-grid';
-
-  enrolledCourses.forEach(enrollment => {
-    const card = createCourseCard(enrollment);
-    grid.appendChild(card);
-  });
-
-  container.innerHTML = '';
-  container.appendChild(grid);
 }
 
-// ====================================================================
-// CREATE COURSE CARD
-// ====================================================================
-function createCourseCard(enrollment) {
-  const card = document.createElement('div');
-  card.className = 'course-card';
-  
-  const course = enrollment.course;
-  const progress = enrollment.progress || 0;
-  const isCompleted = enrollment.isCompleted;
-  const totalLessons = course.totalLessons || course.lessons?.length || 0;
-  const completedLessons = enrollment.completedLessons?.length || 0;
-  
-  let lastAccessedText = 'Not started';
-  if (enrollment.lastAccessedAt) {
-    const lastDate = enrollment.lastAccessedAt.toDate ? enrollment.lastAccessedAt.toDate() : new Date(enrollment.lastAccessedAt);
-    const now = new Date();
-    const diffMinutes = Math.floor((now - lastDate) / 60000);
-    
-    if (diffMinutes < 1) {
-      lastAccessedText = 'Just now';
-    } else if (diffMinutes < 60) {
-      lastAccessedText = `${diffMinutes} min ago`;
-    } else if (diffMinutes < 1440) {
-      lastAccessedText = `${Math.floor(diffMinutes / 60)} hours ago`;
-    } else {
-      lastAccessedText = `${Math.floor(diffMinutes / 1440)} days ago`;
+function waitForCheckout(maxWait = 10000) {
+  return new Promise((resolve) => {
+    if (typeof window.startPurchase === 'function') {
+      resolve(true);
+      return;
     }
-  }
+    
+    let waited = 0;
+    const interval = setInterval(() => {
+      if (typeof window.startPurchase === 'function') {
+        clearInterval(interval);
+        resolve(true);
+        return;
+      }
+      waited += 100;
+      if (waited >= maxWait) {
+        clearInterval(interval);
+        resolve(false);
+      }
+    }, 100);
+  });
+}
 
-  card.innerHTML = `
-    <div style="position: relative;">
-      <img src="${course.thumbnail || 'https://via.placeholder.com/400x225?text=Course+Image'}" 
-           alt="${course.title}" 
-           class="course-thumbnail"
-           onerror="this.src='https://via.placeholder.com/400x225?text=Course+Image'">
-      ${isCompleted ? '<div class="completion-badge"><ion-icon name="checkmark-circle"></ion-icon> Completed</div>' : ''}
-    </div>
-    <div class="course-content">
-      <h3 class="course-title">${course.title}</h3>
-      <div class="course-meta">
-        <span><ion-icon name="folder-outline"></ion-icon> ${course.category || 'General'}</span>
-        <span><ion-icon name="book-outline"></ion-icon> ${completedLessons}/${totalLessons} Lessons</span>
-      </div>
-      <div class="progress-container">
-        <div class="progress-bar">
-          <div class="progress-fill" style="width: ${progress}%"></div>
-        </div>
-        <div class="progress-text">
-          <span>${progress}% Complete</span>
-          <span>${lastAccessedText}</span>
-        </div>
-      </div>
-      <div class="course-actions">
-        <button class="btn btn-primary" onclick="continueCourse('${enrollment.courseId}')">
-          <ion-icon name="${progress > 0 ? 'play' : 'play-circle'}-outline"></ion-icon>
-          ${progress > 0 ? 'Continue Learning' : 'Start Course'}
-        </button>
-        ${isCompleted ? `
-          <button class="btn btn-success" onclick="viewCertificate('${enrollment.courseId}')">
-            <ion-icon name="ribbon-outline"></ion-icon>
-            Certificate
-          </button>
-        ` : ''}
+function showEnrollmentNotification(data) {
+  const notification = document.createElement('div');
+  notification.style.cssText = `
+    position: fixed; top: 20px; right: 20px; background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+    color: white; padding: 20px 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(20, 184, 166, 0.3);
+    z-index: 10000; max-width: 350px;
+  `;
+  notification.innerHTML = `
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <ion-icon name="information-circle" style="font-size: 24px;"></ion-icon>
+      <div>
+        <strong style="display: block; margin-bottom: 5px;">Continuing your enrollment...</strong>
+        <span style="font-size: 14px; opacity: 0.95;">${data.courseTitle || 'Selected Course'}</span>
       </div>
     </div>
   `;
-
-  return card;
+  document.body.appendChild(notification);
+  setTimeout(() => { notification.remove(); }, 3000);
 }
 
 // ====================================================================
-// CONTINUE COURSE
+// GLOBAL RUNTIME INTERACTION ROUTERS
 // ====================================================================
 window.continueCourse = function(courseId) {
-  console.log('🚀 Redirecting to course viewer:', courseId);
   window.location.href = `./course-viewer.html?courseId=${courseId}`;
 };
 
+window.switchDashboardTab = function(targetTabId, element) {
+  document.querySelectorAll('.dashboard-section-card').forEach(tab => tab.classList.remove('active-tab'));
+  document.querySelectorAll('.nav-item-btn').forEach(btn => btn.classList.remove('active'));
+  
+  const target = document.getElementById(targetTabId);
+  if (target) target.classList.add('active-tab');
+  if (element) element.classList.add('active');
+};
+
 // ====================================================================
-// VIEW CERTIFICATE
+// CERTIFICATE ISSUANCE SYSTEM ARCHITECTURE
 // ====================================================================
 window.viewCertificate = async function(courseId) {
   const enrollment = enrolledCourses.find(e => e.courseId === courseId);
-  
   if (!enrollment || !enrollment.isCompleted) {
-    alert('Course not completed yet');
+    alert('Course metrics indicate milestone incomplete.');
     return;
   }
 
   await generateCertificate(enrollment);
   const certModal = document.getElementById('certificate-modal');
-  if (certModal) {
-    certModal.classList.add('open');
-  }
+  if (certModal) certModal.classList.add('open');
 };
 
-// ====================================================================
-// GENERATE CERTIFICATE
-// ====================================================================
 async function generateCertificate(enrollment) {
   try {
     const userDoc = await getDoc(doc(db, 'user', currentUser.uid));
     const userData = userDoc.data();
+    const studentName = `${userData.firstName || ''} ${userData.lastName || ''}`.trim() || currentUser.email.split('@')[0];
     
-    const studentName = `${userData.firstName || ''} ${userData.lastName || ''}`.trim() || 
-                       currentUser.displayName || 
-                       currentUser.email.split('@')[0];
-    
-    const courseName = enrollment.course.title;
-    
-    const completionDate = enrollment.completedAt?.toDate().toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    }) || new Date().toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-
     const canvas = document.getElementById('certificate-canvas');
-    if (!canvas) {
-      console.error('Certificate canvas not found');
-      return;
-    }
+    if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
     canvas.width = 800;
     canvas.height = 600;
 
-    // Background
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, 800, 600);
-
-    // Outer Border
     ctx.strokeStyle = '#14b8a6';
     ctx.lineWidth = 12;
     ctx.strokeRect(15, 15, 770, 570);
-
-    // Inner Border
-    ctx.strokeStyle = '#0a0a0a';
-    ctx.lineWidth = 3;
-    ctx.strokeRect(35, 35, 730, 530);
-
-    // Corner Accents
-    ctx.fillStyle = '#14b8a6';
-    ctx.fillRect(25, 25, 60, 8);
-    ctx.fillRect(25, 25, 8, 60);
-    ctx.fillRect(715, 25, 60, 8);
-    ctx.fillRect(767, 25, 8, 60);
-    ctx.fillRect(25, 567, 60, 8);
-    ctx.fillRect(25, 515, 8, 60);
-    ctx.fillRect(715, 567, 60, 8);
-    ctx.fillRect(767, 515, 8, 60);
-
-    // Title
+    
     ctx.fillStyle = '#0a0a0a';
     ctx.font = 'bold 52px Arial, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('CERTIFICATE', 400, 110);
-
-    // Subtitle
-    ctx.font = '28px Arial, sans-serif';
-    ctx.fillStyle = '#14b8a6';
-    ctx.fillText('OF COMPLETION', 400, 150);
-
-    // Line
-    ctx.strokeStyle = '#14b8a6';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(250, 170);
-    ctx.lineTo(550, 170);
-    ctx.stroke();
-
-    // Text
-    ctx.font = 'italic 22px Arial, sans-serif';
-    ctx.fillStyle = '#4b5563';
-    ctx.fillText('This certifies that', 400, 230);
-
+    
     ctx.font = 'bold 40px Arial, sans-serif';
     ctx.fillStyle = '#14b8a6';
     ctx.fillText(studentName, 400, 280);
 
-    ctx.font = 'italic 22px Arial, sans-serif';
-    ctx.fillStyle = '#4b5563';
-    ctx.fillText('has successfully completed', 400, 330);
-
     ctx.font = 'bold 32px Arial, sans-serif';
     ctx.fillStyle = '#0a0a0a';
-    ctx.fillText(courseName, 400, 385);
-
-    ctx.font = '20px Arial, sans-serif';
-    ctx.fillStyle = '#4b5563';
-    ctx.fillText(`Completed on ${completionDate}`, 400, 440);
-
-    // Signatures
-    const sigY = 520;
-    ctx.strokeStyle = '#0a0a0a';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(150, sigY);
-    ctx.lineTo(320, sigY);
-    ctx.stroke();
-    
-    ctx.font = 'bold 18px Arial, sans-serif';
-    ctx.fillStyle = '#0a0a0a';
-    ctx.fillText('Tech Wizards Academy', 235, sigY + 25);
-    
-    ctx.font = '15px Arial, sans-serif';
-    ctx.fillStyle = '#6b7280';
-    ctx.fillText('Platform Director', 235, sigY + 45);
-
-    ctx.beginPath();
-    ctx.moveTo(480, sigY);
-    ctx.lineTo(650, sigY);
-    ctx.stroke();
-    
-    ctx.font = 'bold 18px Arial, sans-serif';
-    ctx.fillStyle = '#0a0a0a';
-    ctx.fillText(enrollment.course.instructor || 'Course Instructor', 565, sigY + 25);
-    
-    ctx.font = '15px Arial, sans-serif';
-    ctx.fillStyle = '#6b7280';
-    ctx.fillText('Lead Instructor', 565, sigY + 45);
-
-    console.log('✅ Certificate generated');
-
+    ctx.fillText(enrollment.course.title || 'Course Track', 400, 385);
   } catch (error) {
-    console.error('❌ Error generating certificate:', error);
-    alert('Error generating certificate. Please try again.');
+    console.error('❌ Certificate system fault tracking context:', error);
   }
 }
 
 // ====================================================================
-// CERTIFICATE CONTROLS
+// VIEW STATE RESPONSES
 // ====================================================================
-const downloadBtn = document.getElementById('download-certificate');
-if (downloadBtn) {
-  downloadBtn.addEventListener('click', () => {
-    const canvas = document.getElementById('certificate-canvas');
-    if (!canvas) return;
-
-    const link = document.createElement('a');
-    link.download = `certificate-${Date.now()}.png`;
-    link.href = canvas.toDataURL('image/png');
-    link.click();
-  });
+function showEmptyState() {
+  const libraryGrid = document.getElementById('library-grid');
+  if (!libraryGrid) return;
+  libraryGrid.innerHTML = `<div style="grid-column: 1/-1; color: #94a3b8; text-align: center; padding: 40px 0;">No purchased products or unlocked modules found inside your profile parameters.</div>`;
 }
 
-const closeBtn = document.getElementById('close-certificate');
-if (closeBtn) {
-  closeBtn.addEventListener('click', () => {
-    const modal = document.getElementById('certificate-modal');
-    if (modal) modal.classList.remove('open');
-  });
+function showError(message) {
+  const libraryGrid = document.getElementById('library-grid');
+  if (!libraryGrid) return;
+  libraryGrid.innerHTML = `<div style="grid-column: 1/-1; color: #ef4444; text-align: center; padding: 40px 0;"><ion-icon name="alert-circle-outline" style="font-size: 32px;"></ion-icon><p>${message}</p></div>`;
 }
 
-const certModal = document.getElementById('certificate-modal');
-if (certModal) {
-  certModal.addEventListener('click', (e) => {
-    if (e.target.id === 'certificate-modal') {
-      certModal.classList.remove('open');
+// ====================================================================
+// APPLICATION EXIT DESTRUCTION INTERACTION
+// ====================================================================
+const logoutTrigger = document.getElementById('student-logout-trigger');
+if (logoutTrigger) {
+  logoutTrigger.addEventListener('click', async (e) => {
+    e.preventDefault();
+    try {
+      await signOut(auth);
+      window.location.href = '../sign-in.html';
+    } catch (err) {
+      console.error("Signout error encounter trace execution path:", err);
     }
   });
 }
 
-// ====================================================================
-// SHOW EMPTY STATE
-// ====================================================================
-function showEmptyState() {
-  const container = document.getElementById('courses-container');
-  if (!container) return;
-
-  container.innerHTML = `
-    <div class="empty-state">
-      <ion-icon name="school-outline" style="font-size: 4rem; color: var(--primary-teal); margin-bottom: 1rem;"></ion-icon>
-      <h3>No courses yet</h3>
-      <p>Start your learning journey by browsing our course catalog</p>
-      <a href="/all-courses.html" class="btn btn-primary">
-        <ion-icon name="compass-outline"></ion-icon>
-        Browse Courses
-      </a>
-    </div>
-  `;
-  
-  const totalEl = document.getElementById('total-courses');
-  const completedEl = document.getElementById('completed-courses');
-  const progressEl = document.getElementById('in-progress-courses');
-
-  if (totalEl) totalEl.textContent = '0';
-  if (completedEl) completedEl.textContent = '0';
-  if (progressEl) progressEl.textContent = '0';
-}
-
-// ====================================================================
-// SHOW ERROR
-// ====================================================================
-function showError(message) {
-  const container = document.getElementById('courses-container');
-  if (!container) return;
-
-  container.innerHTML = `
-    <div class="empty-state">
-      <ion-icon name="alert-circle-outline" style="font-size: 4rem; color: #ef4444; margin-bottom: 1rem;"></ion-icon>
-      <h3 style="color: #ef4444;">Error</h3>
-      <p>${message}</p>
-      <button class="btn btn-primary" onclick="location.reload()">
-        <ion-icon name="refresh-outline"></ion-icon>
-        Retry
-      </button>
-    </div>
-  `;
-}
-
-// ====================================================================
-// PAGE VISIBILITY HANDLER
-// ====================================================================
+// Page visibility tracking updates
 document.addEventListener('visibilitychange', () => {
   if (!document.hidden && currentUser && !isLoadingCourses) {
-    console.log('🔄 Tab active - refreshing data');
-    loadUserCourses();
+    loadStudentDashboardData(currentUser.uid);
   }
 });
-
-console.log('✅ Student Dashboard initialized - v4 (Direct Checkout - No Extra Redirects)');
