@@ -59,7 +59,7 @@
             <div class="search-filter-bar">
                 <div class="search-input-group">
                     <ion-icon name="search-outline"></ion-icon>
-                    <input type="text" id="catalog-search" placeholder="What specific skill are you mastering today?">
+                    <input type="text" id="catalog-search" placeholder="Search">
                 </div>
                 <div class="select-group">
                     <select id="filter-format">
@@ -70,7 +70,7 @@
                         <option value="live">Zoom Live Events</option>
                     </select>
                 </div>
-                <div class="select-group">
+                <div class="select-group" style="display: none;">
                     <select id="filter-category">
                         <option value="all">All Specialties</option>
                         <option value="web-development">Web Development</option>
@@ -94,5 +94,6 @@
         </section>
     </main>
     <script type="module" src="js/course.js"></script>
+    <script src="js/mobile-nav.js"></script>
 </body>
 </html>

@@ -19,7 +19,9 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
+a{
+  text-decoration: none;
+}
 body {
   font-family: 'Inter', sans-serif;
   background: var(--surface);
@@ -395,6 +397,6 @@ ion-icon { vertical-align: middle; font-size: 1.15em; }
 }
 
 @media (max-width: 640px) {
-  .products-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .products-grid { grid-template-columns: repeat(2, 1fr); }
   .continue-hero h3 { font-size: 18px; }
 }
