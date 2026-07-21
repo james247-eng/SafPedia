@@ -184,6 +184,29 @@ function wireLessonCard(root) {
     updateLessonNumbers();
   });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
   // Audio upload -> Cloudinary
   root.querySelector('.lesson-audio-upload-btn').addEventListener('click', async () => {
     const fileInput = root.querySelector('.lesson-audio-file');
@@ -229,6 +252,93 @@ function wireLessonCard(root) {
       statusEl.style.color = '#ef4444';
     }
   });
+
+*/
+
+// PDF Upload Click Handler
+root.querySelector('.lesson-pdf-upload-btn')?.addEventListener('click', async (e) => {
+  // Target the container block directly from the clicked button
+  const container = e.target.closest('.lesson-pdf-fields');
+  const fileInput = container ? container.querySelector('.lesson-pdf-file') : null;
+  const statusEl = container ? container.querySelector('.lesson-pdf-status') : null;
+  const urlInput = root.querySelector('.lesson-content-url');
+
+  if (!fileInput || !fileInput.files[0]) {
+    showAlert('Choose a PDF file first', 'error');
+    return;
+  }
+
+  statusEl.textContent = 'Uploading...';
+  statusEl.style.color = '#9ca3af';
+
+  try {
+    const url = await uploadToCloudinary(fileInput.files[0], 'course-pdfs');
+    if (urlInput) urlInput.value = url;
+    statusEl.textContent = 'Uploaded ✓';
+    statusEl.style.color = '#059669';
+  } catch (error) {
+    statusEl.textContent = 'Upload failed: ' + error.message;
+    statusEl.style.color = '#ef4444';
+  }
+});
+
+// Audio Upload Click Handler
+root.querySelector('.lesson-audio-upload-btn')?.addEventListener('click', async (e) => {
+  const container = e.target.closest('.lesson-audio-fields');
+  const fileInput = container ? container.querySelector('.lesson-audio-file') : null;
+  const statusEl = container ? container.querySelector('.lesson-audio-status') : null;
+  const urlInput = root.querySelector('.lesson-content-url');
+
+  if (!fileInput || !fileInput.files[0]) {
+    showAlert('Choose an audio file first', 'error');
+    return;
+  }
+
+  statusEl.textContent = 'Uploading...';
+  statusEl.style.color = '#9ca3af';
+
+  try {
+    const url = await uploadToCloudinary(fileInput.files[0], 'course-audio');
+    if (urlInput) urlInput.value = url;
+    statusEl.textContent = 'Uploaded ✓';
+    statusEl.style.color = '#059669';
+  } catch (error) {
+    statusEl.textContent = 'Upload failed: ' + error.message;
+    statusEl.style.color = '#ef4444';
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   // Create Zoom meeting for a live lesson
   root.querySelector('.lesson-create-zoom-btn').addEventListener('click', async () => {

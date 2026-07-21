@@ -65,7 +65,7 @@ async function loadStudentDashboardData(userId) {
     }
 
     // Set initial loading visual state
-    libraryGrid.innerHTML = '<div class="loading-placeholder">Syncing active inventory parameters...</div>';
+    libraryGrid.innerHTML = '<div class="loading-placeholder">Loading active Assets...</div>';
 
     // Fetch user document from Firestore
     const userDocSnap = await getDoc(doc(db, 'user', userId));

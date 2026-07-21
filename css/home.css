@@ -716,7 +716,7 @@ input:focus-visible {
 /* ============================================
    CTA
    ============================================ */
-.cta-section { background: var(--color-primary-dark); padding: 5.5rem 2rem; }
+.cta-section { background: transparent; padding: 5.5rem 2rem; color:#2C63B0 }
 
 .cta-container { max-width: 900px; margin: 0 auto; }
 
@@ -735,7 +735,7 @@ input:focus-visible {
 /* ============================================
    FOOTER
    ============================================ */
-.footer { background: var(--color-ink); color: var(--color-white); padding: 4rem 2rem 2rem; }
+.footer { background: var( --color-secondary); color: #2C63B0; padding: 4rem 2rem 2rem; }
 
 .footer-container { max-width: 1400px; margin: 0 auto; }
 
