@@ -168,20 +168,20 @@ async function loadStudentDashboardData(userId) {
         
         const card = document.createElement('div');
         card.className = 'product-card';
-        card.style.cssText = "background: #1e293b; border: 1px solid #334155; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column;";
+        card.style.cssText = "background: white; border: 1px solid #33415598; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column;";
         
         const progress = activeEnrollment.progress || 0;
         const totalLessons = courseData.totalLessons || courseData.lessons?.length || 0;
         const completedLessons = activeEnrollment.completedLessons?.length || 0;
 
         card.innerHTML = `
-          <div style="position: relative; width: 100%; height: 160px; overflow: hidden; background: #0f172a;">
+          <div style="position: relative; width: 100%; height: 160px; overflow: hidden; background: #e2e8f5;">
               <img src="${courseData.thumbnail || '../assets/img/placeholder.png'}" alt="Thumb" style="width: 100%; height: 100%; object-fit: cover;">
               <span class="badge-f ${courseData.formatType || 'video'}" style="position: absolute; top: 12px; right: 12px; background: #4f46e5; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase;">${courseData.formatType || 'VIDEO'}</span>
               ${activeEnrollment.isCompleted ? '<div style="position: absolute; bottom: 12px; left: 12px; background: #14b8a6; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 4px;"><ion-icon name="checkmark-circle"></ion-icon> Completed</div>' : ''}
           </div>
           <div style="padding: 20px; flex-grow: 1; display: flex; flex-direction: column; gap: 12px;">
-              <span style="font-size: 11px; color: #00bfa6; font-weight: 700; letter-spacing: 0.05em;">${courseData.category?.replace('-', ' ').toUpperCase() || 'TRACK'}</span>
+              <span style="font-size: 11px; color: #0059bf; font-weight: 700; letter-spacing: 0.05em;">${courseData.category?.replace('-', ' ').toUpperCase() || 'TRACK'}</span>
               <h3 style="font-size: 16px; font-weight: 600; color: #fff; margin: 0; line-height: 1.4;">${courseData.title}</h3>
               
               <div style="display: flex; justify-content: space-between; font-size: 12px; color: #94a3b8; margin-top: 4px;">

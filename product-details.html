@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Course Details | Tech Wizards Academy</title>
+  <meta name="description" content="Course details on Safpedia.">
+  <title>Course Details | Safpedia</title>
 <script>
     // ====================================================================
 // AFFILIATE REFERRAL TRAFFIC CAPTURE
@@ -23,18 +24,56 @@
   <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
   <link rel="manifest" href="favicon/site.webmanifest">
-  
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <!-- Ionicons -->
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <link rel="stylesheet" href="css/course-details.css">
 </head>
 <body>
 
+  <!-- SITE HEADER -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="index.html" class="brand-logo">Safpedia</a>
+
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about-us.html" class="nav-link">About</a>
+        <a href="all-courses.html" class="nav-link active">Browse Marketplace</a>
+        <a href="sell.html" class="nav-link">Sell on Safpedia</a>
+        <a href="dashboard.html" class="nav-link">My Library</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="sign-in.html" class="btn btn-secondary">Sign In</a>
+
+        <button class="mobile-menu-btn" id="mobile-menu-btn">
+          <ion-icon name="menu-outline" class="menu-icon"></ion-icon>
+          <ion-icon name="close-outline" class="close-icon"></ion-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu overlay -->
+    <div class="mobile-menu" id="mobile-menu">
+      <a href="index.html" class="mobile-nav-link">Home</a>
+      <a href="about-us.html" class="mobile-nav-link">About</a>
+      <a href="all-courses.html" class="mobile-nav-link">Browse Marketplace</a>
+      <a href="sell.html" class="mobile-nav-link">Sell on Safpedia</a>
+      <a href="dashboard.html" class="mobile-nav-link">My Library</a>
+    </div>
+  </header>
+
   <!-- Loading Indicator -->
   <div id="page-loading">
     <div>
       <div class="spinner"></div>
-      <p style="margin-top:20px; color:#6b7280;">Loading course...</p>
+      <p class="loading-text">Loading course...</p>
     </div>
   </div>
 
@@ -42,7 +81,7 @@
   <div id="error-container"></div>
 
   <!-- Hero Section -->
-  <section class="hero" id="hero-section" style="display:none;">
+  <section class="hero is-hidden" id="hero-section">
     <div class="hero-content">
       <h1 id="course-title-hero">Course Title</h1>
       <p class="subtitle" id="course-subtitle">Course description</p>
@@ -70,7 +109,7 @@
   </section>
 
   <!-- Course Meta Info -->
-  <section id="meta-section" style="display:none;">
+  <section class="is-hidden" id="meta-section">
     <h2>Course Information</h2>
     <div class="course-meta">
       <div class="meta-card">
@@ -83,30 +122,30 @@
       </div>
       <div class="meta-card">
         <h3>Instructor</h3>
-        <p id="course-instructor">Tech Wizards</p>
+        <p id="course-instructor">Safpedia</p>
       </div>
       <div class="meta-card">
         <h3>Duration</h3>
         <p id="course-duration">Self-paced</p>
       </div>
     </div>
-    
-    <div style="margin-top:40px; padding:30px; background:#f9fafb; border-radius:16px; border-left:4px solid #14b8a6;">
-      <h3 style="margin-bottom:15px; color:#1a1f36;">About This Course</h3>
-      <p id="course-description" style="color:#4b5563; line-height:1.8; font-size:1.1rem;">
+
+    <div class="about-course-panel">
+      <h3>About This Course</h3>
+      <p id="course-description">
         Loading description...
       </p>
     </div>
   </section>
 
   <!-- Course Curriculum -->
-  <section class="curriculum" id="curriculum-section" style="display:none;">
+  <section class="curriculum is-hidden" id="curriculum-section">
     <h2>What You'll Learn</h2>
     <div id="curriculum-list">
       <!-- Will be populated by JavaScript -->
     </div>
     
-    <div style="text-align:center; margin-top:40px;">
+    <div class="curriculum-cta">
       <button class="btn btn-primary enroll-btn">
         <ion-icon name="school-outline"></ion-icon>
         Enroll Now - <span class="course-price">₦0</span>
@@ -115,6 +154,7 @@
   </section>
 
   <!-- Scripts -->
+  <script src="js/mobile-menu.js"></script>
   <script type="module">
     import { initCoursePage } from '/js/single-course-handler.js';
     
@@ -127,11 +167,11 @@
       console.error('❌ No course ID in URL');
       document.getElementById('page-loading').style.display = 'none';
       document.getElementById('error-container').innerHTML = `
-        <div style="text-align:center; padding:100px 20px;">
-          <ion-icon name="alert-circle-outline" style="font-size:5rem; color:#ef4444;"></ion-icon>
-          <h2 style="color:#1a1f36; margin:20px 0;">No Course Selected</h2>
-          <p style="color:#6b7280; margin-bottom:30px;">Please select a course from the catalog</p>
-          <a href="/all-courses.html" style="display:inline-block; padding:14px 30px; background:#14b8a6; color:white; text-decoration:none; border-radius:8px; font-weight:600;">
+        <div class="no-course-error">
+          <ion-icon name="alert-circle-outline" class="no-course-error-icon"></ion-icon>
+          <h2>No Course Selected</h2>
+          <p>Please select a course from the catalog</p>
+          <a href="/all-courses.html" class="btn btn-primary">
             View All Courses
           </a>
         </div>

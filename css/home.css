@@ -148,7 +148,25 @@ input:focus-visible {
   justify-content: space-between;
 }
 
-.nav-logo img { height: 46px; width: auto; }
+.brand-logo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: blue !important;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 4px;
+  z-index:999;
+}
+.brand-logo::before {
+  content: "";
+  width: 10px; height: 10px;
+  background: red;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
 
 .nav-links { display: flex; gap: 2.25rem; align-items: center; }
 
@@ -181,7 +199,7 @@ input:focus-visible {
   align-items: center;
   gap: 0.5rem;
   padding: 0.55rem 1.1rem;
-  background: var(--color-primary);
+  background: blue;
   color: var(--color-white);
   border-radius: var(--radius-full);
   cursor: pointer;
