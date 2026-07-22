@@ -78,7 +78,7 @@ body {
 }
 
 .progress-badge {
-  background: linear-gradient(135deg, var(--blue) 0%, var(--red) 100%);
+  background: var(--blue);
   color: white;
   padding: 8px 16px;
   border-radius: 20px;
@@ -700,9 +700,12 @@ video {
     max-height: 400px;
   }
 
+  .video-container {
+    aspect-ratio: 16 / 9;
+  }
+
   .video-section {
     height: auto;
-    min-height: 50vh;
   }
 }
 
