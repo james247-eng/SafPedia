@@ -372,7 +372,6 @@ async function updateProfileIcon(user) {
       // Create avatar with user's initial
       profileIcon.innerHTML = `
         <div class="profile-avatar">${firstName.charAt(0).toUpperCase()}</div>
-        <span class="profile-text">Dashboard</span>
       `;
       
       // Add click handler for redirect to appropriate dashboard

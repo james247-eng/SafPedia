@@ -48,7 +48,9 @@
   margin-bottom: 1.5rem;
   color: var(--text-dark);
 }
-
+.gradient{
+  color: red;
+}
 .about-hero-subtitle {
   font-size: 1.25rem;
   color: var(--text-light);
@@ -72,12 +74,12 @@
 }
 
 .stat-card-large {
-  display: flex;
+  display: grid;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 2.5rem 2rem;
+  padding: 1.5rem 1rem;
   background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
   border-radius: var(--radius-lg);
   border: 2px solid var(--border-color);
@@ -111,6 +113,7 @@
 }
 
 .stat-icon-large {
+  display: none;
   font-size: 3rem;
   margin-bottom: 1rem;
   color: red;
@@ -363,7 +366,10 @@
   .about-hero-subtitle {
     font-size: 1rem;
   }
-  
+  .stats-section {
+  padding: 0.5rem 0.5rem;
+  background: white;
+}
   .stats-grid-large {
     grid-template-columns: 1fr;
     padding: 0 1rem;
@@ -371,6 +377,10 @@
   
   .stat-card-large h3 {
     font-size: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
   
   .difference-grid {

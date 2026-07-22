@@ -4,7 +4,7 @@
    ============================================ */
 :root {
   /* Brand colors */
-  --color-primary: #16407E;
+  --color-primary: blue;
   --color-primary-dark: #0B2A54;
   --color-primary-mid: #2C63B0;
   --color-primary-light: #E8EFFA;
@@ -258,7 +258,9 @@ input:focus-visible {
   position: relative;
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   padding-top: 80px;
   overflow: hidden;
   background: var(--color-white);
@@ -300,13 +302,22 @@ input:focus-visible {
   max-width: 1400px;
   margin: 0 auto;
   padding: 2rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   gap: 4rem;
   align-items: center;
 }
 
-.hero-content { animation: fadeInUp 0.8s ease; }
+.hero-content { 
+  animation: fadeInUp 0.8s ease; 
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
 .hero-badge {
   display: inline-flex;
@@ -735,7 +746,7 @@ input:focus-visible {
 /* ============================================
    FOOTER
    ============================================ */
-.footer { background: var( --color-secondary); color: #2C63B0; padding: 4rem 2rem 2rem; }
+.footer { background: blue; color: white; padding: 4rem 2rem 2rem; }
 
 .footer-container { max-width: 1400px; margin: 0 auto; }
 

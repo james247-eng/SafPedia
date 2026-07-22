@@ -13,7 +13,7 @@
     --text-primary-light: #10141C;
     --text-secondary-light: #58626E;
     
-    --brand-primary: #16407E;
+    --brand-primary: blue;
     --brand-primary-dark: #0B2A54;
     --brand-primary-light: #E8EFFA;
     --brand-accent: #B4232C;
@@ -74,13 +74,23 @@ body {
 }
 
 .brand-logo {
-    font-size: 22px;
-    font-weight: 800;
-    color: var(--brand-primary);
-    text-decoration: none;
-    letter-spacing: -0.01em;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: blue !important;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 4px;
+  z-index:999;
 }
-
+.brand-logo::before {
+  content: "";
+  width: 10px; height: 10px;
+  background: red;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
 .main-nav {
     display: flex;
     gap: 24px;
