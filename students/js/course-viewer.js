@@ -1,6 +1,6 @@
 // ====================================================================
 // COURSE VIEWER - Multi-Lesson System with Universal Video Support
-// Tech Wizards Academy
+// Safpedia
 // ====================================================================
 
 import { auth, db } from '../../firebase-config.js';
@@ -223,7 +223,7 @@ function contentTypeIcon(contentType) {
     video: '<ion-icon name="videocam-outline" style="font-size:14px; vertical-align:-2px;"></ion-icon>',
     audio: '<ion-icon name="headset-outline" style="font-size:14px; vertical-align:-2px;"></ion-icon>',
     pdf: '<ion-icon name="document-outline" style="font-size:14px; vertical-align:-2px;"></ion-icon>',
-    live: '<ion-icon name="radio-outline" style="font-size:14px; vertical-align:-2px; color:#ef4444;"></ion-icon>'
+    live: '<ion-icon name="radio-outline" style="font-size:14px; vertical-align:-2px; color:#FF3B5C;"></ion-icon>'
   };
   return icons[contentType] || icons.video;
 }
@@ -757,7 +757,7 @@ async function generateCertificate() {
           <ion-icon name="ribbon"></ion-icon>
         </div>
         <h1 class="certificate-title">Certificate</h1>
-        <p class="certificate-subtitle">Tech Wizards Academy</p>
+        <p class="certificate-subtitle">Safpedia</p>
       </div>
       
       <div class="certificate-body">
@@ -777,7 +777,7 @@ async function generateCertificate() {
       <div class="certificate-footer">
         <div class="certificate-signature">
           <div class="signature-line"></div>
-          <p class="signature-name">Tech Wizards Academy</p>
+          <p class="signature-name">Safpedia</p>
           <p class="signature-title">Platform Director</p>
         </div>
         <div class="certificate-signature">
@@ -815,7 +815,7 @@ window.downloadCertificate = function() {
 window.shareCertificate = function() {
   const shareData = {
     title: `${currentCourse.title} - Certificate`,
-    text: `I just completed "${currentCourse.title}" on Tech Wizards Academy! 🎉`,
+    text: `I just completed "${currentCourse.title}" on Safpedia! 🎉`,
     url: window.location.href
   };
   
@@ -846,8 +846,8 @@ function showLoading(show) {
 function showNotification(message, type = 'info') {
   const colors = {
     success: '#10b981',
-    error: '#ef4444',
-    info: '#14b8a6',
+    error: '#FF3B5C',
+    info: '#2954FF',
     warning: '#f59e0b'
   };
   

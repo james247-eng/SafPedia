@@ -3,10 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Course Viewer - Tech Wizards Academy</title>
+  <title>Course Viewer | Safpedia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/course-viewer.css">
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
 <body>
   <!-- Header -->
   <header class="viewer-header">
@@ -41,11 +45,11 @@
         <p id="current-lesson-description"></p>
         
         <div class="lesson-actions">
-          <button class="btn btn-primary" id="mark-complete-btn" style="display:none;">
+          <button class="btn btn-primary is-hidden" id="mark-complete-btn">
             <ion-icon name="checkmark-circle-outline"></ion-icon>
             Mark as Complete
           </button>
-          <button class="btn btn-secondary" id="next-lesson-btn" style="display:none;">
+          <button class="btn btn-secondary is-hidden" id="next-lesson-btn">
             Next Lesson
             <ion-icon name="arrow-forward-outline"></ion-icon>
           </button>
@@ -69,7 +73,7 @@
       </div>
 
       <!-- Certificate Section -->
-      <div class="certificate-section" id="certificate-section" style="display:none;">
+      <div class="certificate-section is-hidden" id="certificate-section">
         <div class="certificate-banner">
           <ion-icon name="trophy-outline"></ion-icon>
           <h4>Course Complete!</h4>
