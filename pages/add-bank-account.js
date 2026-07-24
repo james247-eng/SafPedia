@@ -1,21 +1,11 @@
-// api/vendors/add-bank-account.js
-
-const { getFirebaseAdmin } = require('../../lib/firebase-admin');
-const { getAuthedUser } = require('../../lib/auth');
+const { getFirebaseAdmin } = require('../lib/firebase-admin');
+const { getAuthedUser } = require('../lib/auth');
 
 /**
- * POST /api/vendors/add-bank-account
- * Any authenticated user — no approval gate, since vendors can list and
- * sell products without admin sign-off. Resolves the account number to a
- * name (so the vendor can confirm it's correct before saving), then
- * registers a Paystack transfer recipient under the MARKETPLACE account
- * (separate from the courses/affiliates Paystack account) and stores the
- * recipientCode — required before /request-payout will work.
- *
- * Note: even if this vendor already has a bank account saved on their
- * affiliate profile, the recipientCode is NOT reusable across Paystack
- * accounts — a fresh recipient must be registered here regardless.
- *
+ * POST /api/affiliates/add-bank-account
+ * Approved affiliate only. Resolves the account number to a name (so the affiliate
+ * can confirm it's correct before saving), then registers a Paystack transfer recipient
+ * and stores the recipientCode — required before /request-payout will work.
  * Body: { bankCode, accountNumber }
  */
 module.exports = async (req, res) => {
@@ -34,9 +24,16 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: 'Missing bankCode or accountNumber' });
     }
 
-    const PAYSTACK_SECRET = process.env.PAYSTACK_SECRET_KEY_MARKETPLACE;
+    const affRef = db.collection('affiliates').doc(user.uid);
+    const affSnap = await affRef.get();
+
+    if (!affSnap.exists || affSnap.data().status !== 'approved') {
+      return res.status(403).json({ error: 'You do not have an approved affiliate account' });
+    }
+
+    const PAYSTACK_SECRET = process.env.PAYSTACK_SECRET_KEY;
     if (!PAYSTACK_SECRET) {
-      return res.status(500).json({ error: 'PAYSTACK_SECRET_KEY_MARKETPLACE not configured' });
+      return res.status(500).json({ error: 'PAYSTACK_SECRET_KEY not configured' });
     }
 
     // Step 1: resolve account number -> account name (also validates the number is real)
@@ -52,7 +49,7 @@ module.exports = async (req, res) => {
 
     const accountName = resolveJson.data.account_name;
 
-    // Step 2: register a transfer recipient on the marketplace Paystack account
+    // Step 2: register a transfer recipient on Paystack (needed to send money to this account)
     const recipientRes = await fetch('https://api.paystack.co/transferrecipient', {
       method: 'POST',
       headers: {
@@ -80,7 +77,7 @@ module.exports = async (req, res) => {
       recipientCode: recipientJson.data.recipient_code
     };
 
-    await db.collection('vendors').doc(user.uid).set({
+    await affRef.set({
       bankAccount,
       updatedAt: admin.firestore.Timestamp.now()
     }, { merge: true });
@@ -88,7 +85,7 @@ module.exports = async (req, res) => {
     return res.status(200).json({ success: true, bankAccount });
 
   } catch (err) {
-    console.error('vendor add-bank-account error:', err);
+    console.error('add-bank-account error:', err);
     return res.status(err.statusCode || 500).json({ error: err.message });
   }
 };

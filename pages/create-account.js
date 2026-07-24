@@ -1,6 +1,6 @@
 const crypto = require('crypto');
-const { getFirebaseAdmin } = require('../../lib/firebase-admin');
-const { requireAdmin } = require('../../lib/auth');
+const { getFirebaseAdmin } = require('../lib/firebase-admin');
+const { requireAdmin } = require('../lib/auth');
 
 function generateReferralCode(seed) {
   const base = (seed || 'AFF').replace(/[^a-zA-Z]/g, '').toUpperCase().slice(0, 6) || 'AFF';

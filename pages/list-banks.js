@@ -1,5 +1,5 @@
-const { getFirebaseAdmin } = require('../../lib/firebase-admin');
-const { getAuthedUser } = require('../../lib/auth');
+const { getFirebaseAdmin } = require('../lib/firebase-admin');
+const { getAuthedUser } = require('../lib/auth');
 
 /**
  * GET /api/affiliates/list-banks
