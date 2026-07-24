@@ -28,10 +28,10 @@
         <aside class="sidebar-panel">
             <div class="brand-logo">Safpedia</div>
             <ul class="nav-group">
-                <li><div class="nav-item-btn active" onclick="switchDashboardTab('products-pane', this)"><ion-icon name="cube-outline"></ion-icon><span class="nav-label">My Products</span></div></li>
-                <li><div class="nav-item-btn" onclick="switchDashboardTab('add-product-pane', this)"><ion-icon name="add-circle-outline"></ion-icon><span class="nav-label">Add Product</span></div></li>
-                <li><div class="nav-item-btn" onclick="switchDashboardTab('orders-pane', this)"><ion-icon name="receipt-outline"></ion-icon><span class="nav-label">Orders</span></div></li>
-                <li><div class="nav-item-btn" onclick="switchDashboardTab('payouts-pane', this)"><ion-icon name="cash-outline"></ion-icon><span class="nav-label">Balance &amp; Payouts</span></div></li>
+                <li><div class="nav-item-btn active" data-tab="products-pane"><ion-icon name="cube-outline"></ion-icon><span class="nav-label">My Products</span></div></li>
+                <li><div class="nav-item-btn" data-tab="add-product-pane"><ion-icon name="add-circle-outline"></ion-icon><span class="nav-label">Add Product</span></div></li>
+                <li><div class="nav-item-btn" data-tab="orders-pane"><ion-icon name="receipt-outline"></ion-icon><span class="nav-label">Orders</span></div></li>
+                <li><div class="nav-item-btn" data-tab="payouts-pane"><ion-icon name="cash-outline"></ion-icon><span class="nav-label">Balance &amp; Payouts</span></div></li>
                 <li><a href="dashboard.html"><div class="nav-item-btn"><ion-icon name="arrow-back-outline"></ion-icon><span class="nav-label">Back to My Courses</span></div></a></li>
             </ul>
             <div class="sidebar-footer">
@@ -163,6 +163,5 @@
     </div>
 
     <script type="module" src="./js/seller-dashboard.js"></script>
-    <script src="./js/dashboard-nav.js"></script>
 </body>
 </html>

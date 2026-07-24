@@ -24,6 +24,22 @@ const auth = getAuth(app);
 let currentUser = null;
 
 // ====================================================================
+// TAB SWITCHING (self-contained — no dependency on dashboard-nav.js)
+// ====================================================================
+document.querySelectorAll('.nav-item-btn[data-tab]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+        const targetId = btn.dataset.tab;
+
+        document.querySelectorAll('.nav-item-btn[data-tab]').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        document.querySelectorAll('.dashboard-section-card').forEach((section) => {
+            section.classList.toggle('active-tab', section.id === targetId);
+        });
+    });
+});
+
+// ====================================================================
 // AUTH GUARD
 // ====================================================================
 onAuthStateChanged(auth, (user) => {
@@ -121,7 +137,7 @@ function renderProducts(products) {
         const cover = p.images && p.images[0] ? p.images[0].url : 'images/hero.png';
         const statusBadge = p.isActive
             ? '<span class="badge-f live">Active</span>'
-            : '<span class="badge-f pdf">Suspended</span>';
+            : '<span class="badge-f pdf">Inactive</span>';
 
         card.innerHTML = `
             <div class="card-banner">
@@ -136,11 +152,99 @@ function renderProducts(products) {
                     <span>${p.type === 'physical' ? `Stock: ${p.stock}` : 'Digital'}</span>
                 </div>
                 <p>Sales: ${p.totalSales}</p>
-                <a href="product-details.html?id=${p.id}" class="btn btn-secondary btn-sm" target="_blank">View Product Page</a>
+                <div class="product-card-actions">
+                    <a href="product-details.html?id=${p.id}" class="btn btn-secondary btn-sm" target="_blank">View</a>
+                    <button class="btn btn-secondary btn-sm edit-product-btn" data-id="${p.id}">Edit</button>
+                    <button class="btn btn-secondary btn-sm toggle-active-btn" data-id="${p.id}" data-active="${p.isActive}">${p.isActive ? 'Deactivate' : 'Activate'}</button>
+                    <button class="btn btn-secondary btn-sm delete-product-btn" data-id="${p.id}">Delete</button>
+                </div>
             </div>
         `;
         grid.appendChild(card);
     });
+
+    grid.querySelectorAll('.edit-product-btn').forEach((btn) => {
+        btn.addEventListener('click', () => openEditProduct(btn.dataset.id, products));
+    });
+    grid.querySelectorAll('.toggle-active-btn').forEach((btn) => {
+        btn.addEventListener('click', () => toggleProductActive(btn.dataset.id, btn.dataset.active !== 'true'));
+    });
+    grid.querySelectorAll('.delete-product-btn').forEach((btn) => {
+        btn.addEventListener('click', () => deleteProduct(btn.dataset.id));
+    });
+}
+
+// ====================================================================
+// EDIT / TOGGLE / DELETE PRODUCT
+// ====================================================================
+function openEditProduct(productId, products) {
+    const product = products.find((p) => p.id === productId);
+    if (!product) return;
+
+    const newTitle = prompt('Title:', product.title);
+    if (newTitle === null) return;
+    const newPrice = prompt('Price (₦):', product.price);
+    if (newPrice === null) return;
+
+    const payload = { productId, title: newTitle.trim(), price: parseFloat(newPrice) };
+
+    if (product.type === 'physical') {
+        const newStock = prompt('Stock quantity:', product.stock);
+        if (newStock === null) return;
+        payload.stock = parseInt(newStock, 10);
+    }
+
+    submitProductUpdate(payload);
+}
+
+async function submitProductUpdate(payload) {
+    try {
+        const idToken = await currentUser.getIdToken();
+        const res = await fetch('/api/marketplace/update-product', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${idToken}`
+            },
+            body: JSON.stringify(payload)
+        });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error || 'Could not update product');
+
+        loadVendorProfile();
+    } catch (err) {
+        console.error('Update product error:', err);
+        alert('Error: ' + err.message);
+    }
+}
+
+async function toggleProductActive(productId, nextActive) {
+    await submitProductUpdate({ productId, isActive: nextActive });
+}
+
+async function deleteProduct(productId) {
+    if (!confirm('Delete this product? Products with past sales are hidden rather than permanently removed.')) {
+        return;
+    }
+    try {
+        const idToken = await currentUser.getIdToken();
+        const res = await fetch('/api/marketplace/delete-product', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${idToken}`
+            },
+            body: JSON.stringify({ productId })
+        });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error || 'Could not delete product');
+
+        alert(json.mode === 'soft-deleted' ? json.message : 'Product permanently deleted.');
+        loadVendorProfile();
+    } catch (err) {
+        console.error('Delete product error:', err);
+        alert('Error: ' + err.message);
+    }
 }
 
 // ====================================================================
